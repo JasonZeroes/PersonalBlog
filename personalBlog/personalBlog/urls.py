@@ -16,7 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from blog.views import BlogIndexView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # 绑定子路由的路由
     url(r'^user/', include("user.urls", namespace='user')),
+    url(r'^blog/', include("blog.urls", namespace='blog')),
+
+    # 绑定博客首页的路由
+    url(r"^$", BlogIndexView.as_view())
 ]
