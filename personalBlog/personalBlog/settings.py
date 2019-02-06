@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 将子应用安装得到应用列表当中
-    'user.apps.UserConfig',
-    'blog.apps.BlogConfig',
+    'user.apps.UserConfig',  # 安装用户模块
+    'blog.apps.BlogConfig',  # 安装博客模块
+    'ckeditor',  # 添加ckeditor富文本编辑器
+    'ckeditor_uploader',  # 添加ckeditor富文本编辑器文件上传部件
 ]
 
 MIDDLEWARE = [
@@ -69,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # 配置渲染处理器
             ],
         },
     },
@@ -129,3 +132,24 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # 指定静态文件加载路径
 ]
+
+# 设置静态文件根目录, 上线的时候使用
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# 设置ckeditor的上传目录
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# 设置编辑器显示样式
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+
+
+
+# 配置静态文件路径
+MEDIA_URL = "/static/media/"   # 分配一个资源URL
+# 配置该URL对应的物理目录存储地址
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
