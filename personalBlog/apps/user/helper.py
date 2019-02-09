@@ -1,5 +1,7 @@
 import hashlib
 
+from django.shortcuts import redirect
+
 from personalBlog.settings import SECRET_KEY
 
 
@@ -24,3 +26,18 @@ def login(request, user):
     request.session["phone"] = user.phone
     # 设置浏览器的过期时间 7200秒
     request.session.set_expiry(7200)
+
+
+# 创建一个函数, 实现检查用户的登录状态
+def check_login(func):
+    # 首先定义一个新的函数
+    def verify_ligin(request, *args, **kwargs):
+        # 验证session中是否有用户的登录信息
+        if request.session.get('id') is None:
+            return redirect("user:用户登录")
+        else:
+            # 调用原函数
+            return func(request, *args, **kwargs)
+
+    # 返回新函数名
+    return verify_ligin

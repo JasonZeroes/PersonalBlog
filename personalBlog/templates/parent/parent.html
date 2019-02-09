@@ -1,5 +1,56 @@
-{% extends 'parent/parent.html' %}
 {% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Jason个人博客 — 一个站在Python开发之路上的草根程序员个人博客网站</title>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="keywords" content="个人博客,Jason个人博客,个人博客系统,Jason博客">
+<meta name="description" content="Jason博客系统，一个站在Python开发之路上的草根程序员个人博客网站。">
+<LINK rel="Bookmark" href="{% static 'favicon.ico' %}" >
+<LINK rel="Shortcut Icon" href="{% static 'favicon.ico' %}" />
+
+<link rel="stylesheet" type="text/css" href="{% static 'plugin/h-ui/css/H-ui.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'plugin/Hui-iconfont/1.0.8/iconfont.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'plugin/pifu/pifu.css' %}" />
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } function showSide(){$('.navbar-nav').toggle();}</script>
+</head>
+<body>
+<header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container cl">
+            <a class="navbar-logo hidden-xs" href="{% url 'blog:博客首页' %}">
+                <img class="logo" src="{% static 'img/logo01.png' %}" alt="Jason博客" />
+            </a>
+            <a class="logo navbar-logo-m visible-xs" href="">Lao王博客</a>
+            <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);" onclick="showSide();">&#xe667;</a>
+            <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
+                <ul class="cl">
+                        <li> <a href="{% url 'blog:博客分类列表' 1 %}" data-hover="PythonLearning">PythonLearning</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 2 %}" data-hover="AI">AI</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 3 %}" data-hover="Web开发">Web开发</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 4 %}" data-hover="爬虫、数据分析">爬虫、数据分析</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 5 %}" data-hover="Jason足迹">Jason足迹</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 6 %}" data-hover="留言脚印">留言脚印</a></li>
+
+                </ul>
+            </nav>
+            <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
+                <ul class="cl">
+                    <li class="userInfo dropDown dropDown_hover">
+                            <a href="/app/qq" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" ><img class="avatar size-S" src="{% static 'img/qq.jpg' %}"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
 
 
 {% block content %}
@@ -35,10 +86,10 @@
                 {% for blogarticle in blogarticles %}
                     {% if blogarticle.blog_img %}
                         <li class="index_arc_item">
-	            <a href="{% url "blog:博客详情" blogarticle.pk %}" class="pic">
+	            <a href="/article/4" class="pic">
 	                <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}" alt="{{ blogarticle.blog_title }}" >
 	            </a>
-	        <h4 class="title"><a href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
+	        <h4 class="title"><a href="/article/4">{{ blogarticle.blog_title }}</a></h4>
 	        <div class="date_hits">
 	            <span>Jason</span>
 	            <span>{{ blogarticle.create_time }}</span>
@@ -54,7 +105,7 @@
 	    </li>
                         {% else %}
                             <li class="index_arc_item no_pic">
-					<h4 class="title"><a href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
+					<h4 class="title"><a href="">{{ blogarticle.blog_title }}</a></h4>
 					<div class="date_hits">
 						<span>Jason</span>
 						<span>{{ blogarticle.create_time }}</span>
@@ -267,14 +318,26 @@
         </div>
   </div>
 </section>
-
 {% endblock %}
-
 
 {% block footer %}
-
+<footer class="footer mt-20">
+    <div class="container-fluid" id="foot">
+        <p>Copyright &copy; 2016-2017 www.wfyvv.com <br>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank">皖ICP备17002922号</a><br>
+        </p>
+    </div>
+</footer>
 {% endblock %}
 
+
+
+
+<script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugin/layer/3.0/layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugin/h-ui/js/H-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plugin/pifu/pifu.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
 {% block footer_js %}
 <script> $(function(){ $(window).on("scroll",backToTopFun); backToTopFun(); }); </script>
 <script type="text/javascript" src="{% static 'plugin/jquery.SuperSlide/2.1.1/jquery.SuperSlide.min.js' %}"></script>
@@ -299,3 +362,6 @@ jQuery(".slideTxtBox").slide({titCell: ".hd ul", mainCell: ".bd ul", autoPage: t
 </script>
 {% endblock %}
 
+
+</body>
+</html>

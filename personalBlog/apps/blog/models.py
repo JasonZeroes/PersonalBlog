@@ -21,7 +21,7 @@ class BlogArticle(BaseModel):
     # 准备博客文章所需的字段
     blog_title = models.CharField(max_length=200, verbose_name="博客标题")
     blog_content = RichTextUploadingField(verbose_name="博客内容")
-    blog_img = models.ImageField(upload_to="blogarticle/%Y%m/%d", null=True, blank=True)
+    blog_img = models.ImageField(upload_to="blogarticle/%Y%m/%d", null=True, blank=True, verbose_name="博客图片地址")
     blog_status = models.SmallIntegerField(choices=((1, "0积分"),
                                                     (2, "20积分"),
                                                     (3, "30积分"),

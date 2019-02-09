@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from django.views import View
 
+from db.base_view import VerifyLogin
 from user.forms import UserRegisterForm, UserLoginModelForm
 from user.helper import set_password, login
 from user.models import UserModel
@@ -62,3 +63,8 @@ class UserLoginView(View):
         else:
             # 在数据合法的情况下
             return render(request, 'user/login.html', {"form": form})
+
+
+# 定义一个类,完成用户密码的修改功能(前提要检查用户是否已经登录)
+class ResetPassWord(VerifyLogin):
+    pass
