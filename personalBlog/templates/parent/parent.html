@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'plugin/Hui-iconfont/1.0.8/iconfont.min.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'plugin/pifu/pifu.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'plugin/wangEditor/css/wangEditor.min.css' %}">
 
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } function showSide(){$('.navbar-nav').toggle();}</script>
 </head>
@@ -27,11 +28,11 @@
             <a class="navbar-logo hidden-xs" href="{% url 'blog:博客首页' %}">
                 <img class="logo" src="{% static 'img/logo01.png' %}" alt="Jason博客" />
             </a>
-            <a class="logo navbar-logo-m visible-xs" href="">Lao王博客</a>
+            <a class="logo navbar-logo-m visible-xs" href="">Jason博客</a>
             <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);" onclick="showSide();">&#xe667;</a>
             <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
                 <ul class="cl">
-                        <li> <a href="{% url 'blog:博客分类列表' 1 %}" data-hover="PythonLearning">PythonLearning</a></li>
+                        <li> <a href="{% url 'blog:博客分类列表' 1 %}" data-hover="Python">Python</a></li>
                         <li> <a href="{% url 'blog:博客分类列表' 2 %}" data-hover="AI">AI</a></li>
                         <li> <a href="{% url 'blog:博客分类列表' 3 %}" data-hover="Web开发">Web开发</a></li>
                         <li> <a href="{% url 'blog:博客分类列表' 4 %}" data-hover="爬虫、数据分析">爬虫、数据分析</a></li>

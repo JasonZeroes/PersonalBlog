@@ -6,9 +6,9 @@
     <nav class="breadcrumb">
         <div class="container">
             <i class="Hui-iconfont">&#xe67f;</i><a href="/" class="c-primary">首页</a>
-            <span class="c-gray en">&gt;</span> <a href="/article" class="c-primary">学无止尽</a>
+            <span class="c-gray en">&gt;</span> <a href="/article" class="c-primary">{{ classify.class_name }}</a>
             <span class="c-gray en">&gt;</span> <span class="c-gray"><i
-                class="Hui-iconfont">&#xe64b;</i> {{ classify.class_name }}</span>
+                class="Hui-iconfont">&#xe64b;</i></span>
         </div>
     </nav>
 
@@ -18,53 +18,79 @@
 
 
             <!--article list-->
-            			<ul class="index_arc">
+            <ul class="index_arc">
                 {% for blogarticle in blogarticles %}
                     {% if blogarticle.blog_img %}
                         <li class="index_arc_item">
-	            <a href="{% url "blog:博客详情" blogarticle.pk %}" class="pic">
-	                <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}" alt="{{ blogarticle.blog_title }}" >
-	            </a>
-	        <h4 class="title"><a href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
-	        <div class="date_hits">
-	            <span>Jason</span>
-	            <span>{{ blogarticle.create_time }}</span>
-                {% for tag_name in blogarticle.blogtag.all %}
-                    <span>
+                            <a href="{% url "blog:博客详情" blogarticle.pk %}" class="pic">
+                                <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
+                                     alt="{{ blogarticle.blog_title }}">
+                            </a>
+                            <h4 class="title"><a
+                                    href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
+                            <div class="date_hits">
+                                <span>Jason</span>
+                                <span>{{ blogarticle.create_time }}</span>
+                                {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
-                {% endfor %}
-	            <p class="hits"><i class="Hui-iconfont" title="点击量"></i> 13° </p>
-	            <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span class="cy_cmt_count">0</span></p>
-	        </div>
-	        <div class="desc">{{ blogarticle.blog_content|safe }}</div>
-	    </li>
-                        {% else %}
-                            <li class="index_arc_item no_pic">
-					<h4 class="title"><a href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
-					<div class="date_hits">
-						<span>Jason</span>
-						<span>{{ blogarticle.create_time }}</span>
-						{% for tag_name in blogarticle.blogtag.all %}
-                    <span>
+                                {% endfor %}
+                                <p class="hits"><i class="Hui-iconfont" title="点击量"></i> 13° </p>
+                                <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span class="cy_cmt_count">0</span>
+                                </p>
+                            </div>
+                            <div class="desc">{{ blogarticle.blog_content|safe }}</div>
+                        </li>
+                    {% else %}
+                        <li class="index_arc_item no_pic">
+                            <h4 class="title"><a
+                                    href="{% url "blog:博客详情" blogarticle.pk %}">{{ blogarticle.blog_title }}</a></h4>
+                            <div class="date_hits">
+                                <span>Jason</span>
+                                <span>{{ blogarticle.create_time }}</span>
+                                {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
-                {% endfor %}
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
-						<p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span id="sourceId::105" class="cy_cmt_count">20</span></p>
-					</div>
-					<div class="desc">{{ blogarticle.blog_content|safe }}</div>
-				</li>
+                                {% endfor %}
+                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
+                                <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span
+                                        id="sourceId::105" class="cy_cmt_count">20</span></p>
+                            </div>
+                            <div class="desc">{{ blogarticle.blog_content|safe }}</div>
+                        </li>
                     {% endif %}
 
                 {% endfor %}
+                <div class="btn  radius btn-block  class=" text-c mb-20
+                    " id="moreBlog">
+                    <nav aria-label="Page navigation">
+                        {% if blogarticles.has_previous %}
+                            <a href="{% url 'blog:博客分类列表' classify.pk %}?page={{ blogarticles.previous_page_number }}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">
+                                    <input style="width:20px" type="button" value="&laquo;"/>
+                                </span>
+                            </a>
+                        {% endif %}
 
-				</ul>
-            <div class="text-c mb-20" id="moreBlog">
-                <a class="btn  radius btn-block " href="javascript:;"
-                   onclick="moreBlog('${blogType.id}','${tag.name}');">点击加载更多</a>
-                <a class="btn  radius btn-block hidden" href="javascript:;">加载中……</a>
+                        {% for p in blogarticles.paginator.page_range %}
+                            <a href="{% url 'blog:博客分类列表' classify.pk %}?page={{ p }}"><input style="width:20px" type="button" value="{{ p }}"/></a>{% endfor %}
+
+                        {% if blogarticles.has_next %}
+
+                            <a href="{% url 'blog:博客分类列表' classify.pk %}?page={{ blogarticles.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <input style="width:20px" type="button" value="&raquo;"/>
+                                </span>
+                            </a>
+                        {% endif %}
+                        <span aria-hidden="true">当前:第{{ blogarticles.number }}页</span>
+                    </nav>
+                </ul>
             </div>
+            </ul>
         </div>
 
         <!--right-->

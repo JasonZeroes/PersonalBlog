@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger
 from django.shortcuts import render, redirect
 
 from django.views import View
@@ -13,6 +14,23 @@ class BlogIndexView(View):
 
         # 2.查询博客文章的标题和详情
         blogarticles = BlogArticle.objects.filter(is_delete=False, blog_is_publish=True).order_by("-create_time")
+
+        # 实现分页功能 Paginator
+        paginator = Paginator(blogarticles, 2)
+        # 获取当前页面的页码
+        page = request.GET.get("page", 1)
+        # 获取对应页码的数据
+        try:
+            blogarticles = paginator.page(page)
+        except PageNotAnInteger:
+            # 页码不是整数的时候, 显示第一页
+            blogarticles = paginator.page(1)
+        except EmptyPage:
+            # 页码为空的时候, 显示最后一页
+            blogarticles = paginator.page(paginator.num_pages)
+
+
+
 
         # 查询出所有文章分类
         data = BlogClassify.objects.filter(is_delete=False)
@@ -31,14 +49,20 @@ class BlogIndexView(View):
 class BlogDetailView(View):
     # 用户以GET方式请求
     def get(self, request, blog_id):
+
+
         # 根据博客文章的id, 查询出博客的详细信息.
         try:
             blogarticle = BlogArticle.objects.get(pk=blog_id)
+            classify = BlogClassify.objects.get(pk=blogarticle.blogclassify_id)
         except:
             return redirect("blog:博客首页")
+
+        # 判断博客文章的状态, 如果不需要积分就直接显示详情, 否则要购买才能进行阅读
         # 准备参数
         context = {
-            "blogarticle": blogarticle
+            "blogarticle": blogarticle,
+            "classify": classify
         }
         return render(request, "blog/article_detail.html", context=context)
 
@@ -51,11 +75,26 @@ class BlogListView(View):
         try:
             classify = BlogClassify.objects.get(pk=blogclassify_id)
             blogarticles = classify.blogarticle_set.all()
-
         except:
             return redirect("blog:博客首页")
+
+        # 实现分页功能 Paginator
+        paginator = Paginator(blogarticles, 2)
+        # 获取当前页面的页码
+        page = request.GET.get("page", 1)
+        # 获取对应页码的数据
+        try:
+            blogarticles = paginator.page(page)
+        except PageNotAnInteger:
+            # 页码不是整数的时候, 显示第一页
+            blogarticles = paginator.page(1)
+        except EmptyPage:
+            # 页码为空的时候, 显示最后一页
+            blogarticles = paginator.page(paginator.num_pages)
+
         # 准备参数
         context = {
             "blogarticles": blogarticles,
+            "classify": classify
         }
         return render(request, 'blog/articles.html', context=context)
