@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # 将子应用安装得到应用列表当中
     'user.apps.UserConfig',  # 安装用户模块
     'blog.apps.BlogConfig',  # 安装博客模块
+    'comments.apps.CommentsConfig',  # 安装用户评论模块
     'ckeditor',  # 添加ckeditor富文本编辑器
     'ckeditor_uploader',  # 添加ckeditor富文本编辑器文件上传部件
 ]

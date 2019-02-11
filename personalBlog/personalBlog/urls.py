@@ -25,6 +25,7 @@ urlpatterns = [
     # 绑定子路由的路由
     url(r'^user/', include("user.urls", namespace='user')),
     url(r'^blog/', include("blog.urls", namespace='blog')),
+    url(r'^comments/', include("comments.urls", namespace='comments')),
 
     # 绑定博客首页的路由
     url(r"^$", BlogIndexView.as_view())

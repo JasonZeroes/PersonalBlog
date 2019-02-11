@@ -6,52 +6,90 @@
     <!--导航条-->
     <nav class="breadcrumb">
         <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="/" class="c-primary">首页</a> <span
-                class="c-gray en">&gt;</span> <span class="c-gray">{{ classify.class_name }}</span> <span class="c-gray en">&gt;</span> <span
+                class="c-gray en">&gt;</span> <span class="c-gray">{{ classify.class_name }}</span> <span
+                class="c-gray en">&gt;</span> <span
                 class="c-gray">{{ blogarticle.blog_title }}</span></div>
     </nav>
-    <section class="container pt-20">
-        <div class="row w_main_row">
-            <div class="col-lg-9 col-md-9 w_main_left">
-                <div class="panel panel-default  mb-20">
-                    <div class="panel-body pt-10 pb-10">
-                        <h2 class="c_titile">{{ blogarticle.blog_title }}</h2>
-                        <p class="box_c"><span class="d_time">发布时间：{{ blogarticle.create_time }}</span><span>编辑：<a
-                                href="">Jason</a></span><span>阅读（88646）</span></p>
-                        <ul class="infos">
-                            <li>{{ blogarticle.blog_content|safe }}</li>
-                            <p align="center" class="pageLink"></p>
-                        </ul>
 
-                        <div class="keybq">
-                            <p><span>关键字</span>：
-                                {% for tag_name in blogarticle.blogtag.all %}
-                                    <a class="label label-default">{{ tag_name }}</a>
-                                {% endfor %}
-                                </p>
-                        </div>
+    <div class="row w_main_row">
+    <div class="col-xs-offset-2 col-md-10 col-md-offset-1 mt-20">
+    <div class="panel panel-default  mb-10">
+        <div class="panel-body pt-10 pb-10">
+            <h2 class="c_titile">{{ blogarticle.blog_title }}</h2>
+            <p class="box_c"><span class="d_time">发布时间：{{ blogarticle.create_time }}</span><span>编辑：<a href="">Jason</a>
+            </p>
+            <ul class="infos">
+                <li>{{ blogarticle.blog_content|safe }}</li>
+                <p align="center" class="pageLink"></p>
+            </ul>
 
-
-                       {% comment %} <div class="nextinfo">
+            <div class="keybq">
+                <p><span>关键字</span>：
+                    {% for tag_name in blogarticle.blogtag.all %}
+                        <a class="label label-default">{{ tag_name }}</a>
+                    {% endfor %}
+                </p>
+            </div>
+            {% comment %} <div class="nextinfo">
                             <p class="last">上一篇：<a href="#">免费收录网站搜索引擎登录口大全</a></p>
                             <p class="next">下一篇：<a href="#">javascript显示年月日时间代码</a></p>
                         </div>{% endcomment %}
 
-                    </div>
-                </div>
+        </div>
+    </div>
 
-                <div class="panel panel-default  mb-20">
-						<div class="tab-category">
-                <a href=""><strong>评论区</strong></a>
+    <div class="">
+        <br/>
+        <div class="tab-category">
+            <a href=""><strong>评论区</strong></a>
+        </div>
+        <br/>
+
+
+        <!--用于评论-->
+        <form action="{% url 'comments:博客评论' %}" method="post">
+            {% csrf_token %}
+            <div class="panel panel-default  mb-20" id="ct">
+                <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                <textarea id="textarea1" name="comment" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+                <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
+                <input type="hidden" name="parent_id" value="0"/>
+                <div class="text-r mt-10">
+                    <button class="btn btn-primary radius fabiao"> 发表评论</button>
+                </div>
             </div>
-						<div class="panel-body">
-							<div class="panel-body" style="margin: 0 3%;">
-                    <div class="mb-20">
-                    	<ul class="commentList">
-                            <li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+        </form>
+        <div class="line"></div>
+
+
+        <ul class="commentList mt-50">
+            {% for comment in comments %}
+                {% if comment.parent_id == 0  %}
+
+
+                        <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                 src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+                <div class="comment-main">
+                    <header class="comment-header">
+                        <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.phone }}</a>
+                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">{{ comment.create_time }}</time>
+                        </div>
+                    </header>
+                    <div class="comment-body">
+                        {{ comment.content|safe }}
+
+
+                        {% endif %}
+                        <ul class="commentList">
+
+                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
                                 <div class="comment-main">
                                     <header class="comment-header">
                                         <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20</time>
+                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">
+                                                2014-8-31 15:20
+                                            </time>
                                         </div>
                                     </header>
                                     <div class="comment-body">
@@ -59,11 +97,14 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
+                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
                                 <div class="comment-main">
                                     <header class="comment-header">
                                         <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20</time>
+                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">
+                                                2014-8-31 15:20
+                                            </time>
                                         </div>
                                     </header>
                                     <div class="comment-body">
@@ -74,78 +115,52 @@
 
                         </ul>
 
-                    </div>
-                    <div class="line"></div>
+                        <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
 
-                    <!--用于评论-->
-                    <div class="mt-20" id="ct">
-                        <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                        <textarea id="textarea1" name="comment" style="height:200px;" placeholder="看完不留一发？"> </textarea>
-                        <div class="text-r mt-10">
-                            <button onclick="getPlainTxt()" class="btn btn-primary radius" > 发表评论</button>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+
+
+
+            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+                <div class="comment-main">
+                    <header class="comment-header">
+                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
+                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20
+                            </time>
                         </div>
-                    </div>
-                    <!--用于回复-->
+                    </header>
+                    <div class="comment-body">
+                        你是猴子派来的救兵吗？
 
-                    <div class="comment hidden mt-20">
-                        <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                            <textarea class="textarea" style="height:100px;" > </textarea>
-                            <button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10">回复</button>
-                            <a class="cancelReply f-r mt-10">取消回复</a>
-                    </div>
+                        <button class="hf f-r btn btn-default size-S mt-10" name="3">回复</button>
 
-                </div>
-						</div>
-					</div>
-				</div>
-
-
-            <div class="col-lg-3 col-md-3">
-                <!--热门推荐-->
-                <div class="bg-fff box-shadow radius mb-20">
-                    <div class="tab-category">
-                        <a href=""><strong>热门推荐</strong></a>
-                    </div>
-                    <div class="tab-category-item">
-                        <ul class="index_recd">
-                            <li>
-                                <a href="#">阻止a标签href默认跳转事件</a>
-                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                            </li>
-                            <li>
-                                <a href="#">PHP面试题汇总</a>
-                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                            </li>
-                            <li>
-                                <a href="#">阻止a标签href默认跳转事件</a>
-                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                            </li>
-                            <li>
-                                <a href="#">阻止a标签href默认跳转事件</a>
-                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                            </li>
-                            <li>
-                                <a href="#">PHP面试题汇总</a>
-                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                            </li>
-                        </ul>
                     </div>
                 </div>
+            </li>
 
-                <!--图片-->
-                <div class="bg-fff box-shadow radius mb-20">
-                    <div class="tab-category">
-                        <a href=""><strong>扫我关注</strong></a>
-                    </div>
-                    <div class="tab-category-item">
-                        <img data-original="temp/gg.jpg" class="img-responsive lazyload" alt="响应式图片">
-                    </div>
-                </div>
+        </ul>
 
-            </div>
+
+        <!--用于回复-->
+        <div class="comment hidden mt-20">
+            <form action="{% url 'comments:博客评论' %}" method="post">
+                {% csrf_token %}
+            <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+            <textarea name="comment" class="textarea" style="height:100px;"> </textarea>
+                <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
+                <input type="hidden" name="parent_id" value="{{ comment.pk }}"/>
+            <button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10 reply">回复</button>
+            <a class="cancelReply f-r mt-10 ">取消回复</a>
+            </form>
         </div>
 
-    </section>
+    </div>
+
+
 {% endblock %}
 
 {% block footer_js %}
@@ -159,10 +174,9 @@
         backToTopFun();
     }); </script>
     <script type="text/javascript" src="{% static 'plugin/wangEditor/js/wangEditor.min.js' %}"></script>
+
     <script type="text/javascript">
         $(function () {
-            $("img.lazyload").lazyload({failurelimit: 3});
-
             wangEditor.config.printLog = false;
             var editor1 = new wangEditor('textarea1');
             editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'img', 'emotion', '|', 'undo', 'fullscreen'];
@@ -186,8 +200,66 @@
                 $(this).parents(".comment-body").find(".hf").show();
                 $(this).parents(".comment-body").find(".comment").remove();
             });
+
+
+            // 实现评论功能
+            $(".fabiao").on("click", function () {
+                //console.debug(111);
+                var self = $(this);
+                // 准备发送ajax的数据
+                var data = $("form").serialize();
+                //获取博客文章的id
+                var blog_id = parseInt(self.siblings('input').val());
+                //console.debug(blog_id);
+                //发动ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'comments:博客评论' %}",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        //console.debug(data);
+                        if (data.code == 0) {
+                            if (confirm("评论成功!")){
+                                location.href = "{% url 'blog:博客首页' %}"
+                            }
+                        }
+                    }
+                })
+
+            });
+
+            //实现回复功能
+            $(".reply").on("click", function () {
+                //console.debug(22222)
+                var self = $(this);
+                // 准备发送ajax的数据
+                var data = $("form").serialize();
+                //获取博客文章的id
+                var blog_id = parseInt(self.siblings('input').val());
+                //console.debug(blog_id);
+                //发动ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'comments:博客评论' %}",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        //console.debug(data);
+                        if (data.code == 0) {
+                            if (confirm("评论成功!")){
+                                location.href = "{% url 'blog:博客首页' %}"
+                            }
+                        }
+                    }
+                })
+
+            })
+
+
+
+
         });
 
     </script>
 {% endblock %}
-
