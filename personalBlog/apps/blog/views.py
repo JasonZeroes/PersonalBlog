@@ -47,7 +47,9 @@ class BlogIndexView(View):
 # 博客的详情
 class BlogDetailView(View):
     # 用户以GET方式请求
-    def get(self, request, blog_id):
+    def get(self, request):
+        # 获取博客id
+        blog_id = int(request.GET.get("blog_id"))
 
         # 根据博客文章的id, 查询出博客的详细信息.及博客的评论
         try:

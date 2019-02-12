@@ -1,7 +1,5 @@
 {% extends "parent/parent.html" %}
 {% load static %}
-
-
 {% block content %}
     <!--导航条-->
     <nav class="breadcrumb">
@@ -51,7 +49,7 @@
             {% csrf_token %}
             <div class="panel panel-default  mb-20" id="ct">
                 <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                <textarea id="textarea1" name="comment" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+                <textarea id="textarea1" name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
                 <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
                 <input type="hidden" name="parent_id" value="0"/>
                 <div class="text-r mt-10">
@@ -65,14 +63,12 @@
         <ul class="commentList mt-50">
             {% for comment in comments %}
                 {% if comment.parent_id == 0  %}
-
-
-                        <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+                    <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
                                                                                  src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
                 <div class="comment-main">
                     <header class="comment-header">
                         <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.phone }}</a>
-                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">{{ comment.create_time }}</time>
+                            <time title="" datetime="" class="f-r">{{ comment.create_time }}</time>
                         </div>
                     </header>
                     <div class="comment-body">
@@ -80,8 +76,8 @@
 
 
                         {% endif %}
-                        <ul class="commentList">
 
+                        {% comment %}<ul class="commentList">
                             <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
                                                                                                  src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
                                 <div class="comment-main">
@@ -113,19 +109,16 @@
                                 </div>
                             </li>
 
-                        </ul>
+                        </ul>{% endcomment %}
 
-                        <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
+                        <button class="hf f-r btn btn-default size-S mt-10 reply" name="2">回复</button>
 
                     </div>
                 </div>
             </li>
             {% endfor %}
-
-
-
-            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+{% comment %}<li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
+     src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
                 <div class="comment-main">
                     <header class="comment-header">
                         <div class="comment-meta"><a class="comment-author" href="#">老王</a>
@@ -135,27 +128,26 @@
                     </header>
                     <div class="comment-body">
                         你是猴子派来的救兵吗？
-
                         <button class="hf f-r btn btn-default size-S mt-10" name="3">回复</button>
-
                     </div>
                 </div>
             </li>
+{% endcomment %}
 
         </ul>
 
 
         <!--用于回复-->
         <div class="comment hidden mt-20">
-            <form action="{% url 'comments:博客评论' %}" method="post">
+            <form class="reply" action="{% url 'comments:博客评论' %}" method="post">
                 {% csrf_token %}
             <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-            <textarea name="comment" class="textarea" style="height:100px;"> </textarea>
-                <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
-                <input type="hidden" name="parent_id" value="{{ comment.pk }}"/>
-            <button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10 reply">回复</button>
+            <textarea name="reply" class="textarea" style="height:100px;"> </textarea>
+                <input type="hidden" class="reply-blog_id" name="blog_id" value="{{ blogarticle.pk }}"/>
+                <input type="hidden" class="reply-parent_id" name="parent_id" value="{{ comment.pk }}"/>
+            <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
             <a class="cancelReply f-r mt-10 ">取消回复</a>
-            </form>
+                </form>
         </div>
 
     </div>
@@ -180,11 +172,11 @@
             wangEditor.config.printLog = false;
             var editor1 = new wangEditor('textarea1');
             editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'img', 'emotion', '|', 'undo', 'fullscreen'];
-            editor1.config.emotions = {
+            {% comment %}editor1.config.emotions = {
                 'default': {title: '老王表情', data: 'plugin/wangEditor/emotions1.data'},
                 'default2': {title: '老王心情', data: 'plugin/wangEditor/emotions3.data'},
                 'default3': {title: '顶一顶', data: 'plugin/wangEditor/emotions2.data'}
-            };
+            };{% endcomment %}
             editor1.create();
 
             //show reply
@@ -204,7 +196,7 @@
 
             // 实现评论功能
             $(".fabiao").on("click", function () {
-                //console.debug(111);
+                console.debug(111);
                 var self = $(this);
                 // 准备发送ajax的数据
                 var data = $("form").serialize();
@@ -218,23 +210,26 @@
                     data: data,
                     dataType: "json",
                     success: function (data) {
-                        //console.debug(data);
-                        if (data.code == 0) {
-                            if (confirm("评论成功!")){
-                                location.href = "{% url 'blog:博客首页' %}"
-                            }
+                        console.debug(data);
+                        alert(data.errmsg);
+                        location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                         }
-                    }
+
                 })
+
 
             });
 
+
+
+
             //实现回复功能
-            $(".reply").on("click", function () {
+  {% comment %}          $(".reply").on("click", function () {
                 //console.debug(22222)
                 var self = $(this);
                 // 准备发送ajax的数据
-                var data = $("form").serialize();
+                var data = $("form.reply").serialize();
+                console.debug(data);
                 //获取博客文章的id
                 var blog_id = parseInt(self.siblings('input').val());
                 //console.debug(blog_id);
@@ -247,17 +242,17 @@
                     success: function (data) {
                         //console.debug(data);
                         if (data.code == 0) {
-                            if (confirm("评论成功!")){
-                                location.href = "{% url 'blog:博客首页' %}"
+                            if (confirm("回复成功!")){
+                                location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                             }
+                        }else{
+                             alert(data.errmsg);
+                            location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                         }
                     }
                 })
 
-            })
-
-
-
+            }){% endcomment %}
 
         });
 
