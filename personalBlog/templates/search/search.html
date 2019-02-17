@@ -1,124 +1,34 @@
+{% extends 'parent/parent.html' %}
 {% load static %}
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Jason个人博客 — 一个站在Python开发之路上的草根程序员个人博客网站</title>
-    <meta charset="utf-8">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <meta name="keywords" content="个人博客,Jason个人博客,个人博客系统,Jason博客">
-    <meta name="description" content="Jason博客系统，一个站在Python开发之路上的草根程序员个人博客网站。">
-    <LINK rel="Bookmark" href="{% static 'favicon.ico' %}">
-    <LINK rel="Shortcut Icon" href="{% static 'favicon.ico' %}"/>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'plugin/h-ui/css/H-ui.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'plugin/Hui-iconfont/1.0.8/iconfont.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'plugin/pifu/pifu.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'plugin/wangEditor/css/wangEditor.min.css' %}">
-
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    }
-
-    function showSide() {
-        $('.navbar-nav').toggle();
-    }</script>
-
-    <style>
-        .highlight_color {
-            color: #8cff42;
-        }
-        </style>
-
-
-</head>
-<body>
-<header class="navbar-wrapper">
-    <div class="navbar navbar-fixed-top">
-        <div class="container cl">
-            <a class="navbar-logo hidden-xs" href="{% url 'blog:博客首页' %}">
-                <img class="logo" src="{% static 'img/logo01.png' %}" alt="Jason博客"/>
-            </a>
-            <a class="logo navbar-logo-m visible-xs" href="">Jason博客</a>
-            <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);"
-               onclick="showSide();">&#xe667;</a>
-            <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
-                <ul class="cl">
-                    <li><a href="{% url 'blog:博客分类列表' 1 %}" data-hover="编码入门、进阶">编码入门、进阶</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 2 %}" data-hover="机器学习">机器学习</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 3 %}" data-hover="Web开发">Web开发</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 4 %}" data-hover="爬虫、数据分析">爬虫、数据分析</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 5 %}" data-hover="留言足迹">留言足迹</a></li>
-                    {% comment %}<li> <a href="{% url 'blog:博客分类列表' 6 %}" data-hover="留言脚印">留言脚印</a></li>{% endcomment %}
-
-                </ul>
-            </nav>
-            <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
-                <ul class="cl">
-                    <li class="userInfo dropDown dropDown_hover">
-                        <a href="{% url 'user:用户个人中心' %}"><img class="avatar size-S"
-                                                               src="{% static 'img/qq.jpg' %}"></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+{% load highlight %}
 
 
 
 {% block content %}
     <section class="container pt-20">
         <div class="col-sm-9 col-md-9">
-            <!--滚动图-->
-            <div class="slider_main">
-                <div class="slider">
-                    <div class="bd">
-                        <ul>
-                            {% for carousel in carousels %}
-                                <li><a href="#" target="_blank"><img style="height: 350px"
-                                                                     src="{{ MEDIA_URL }}{{ carousel.img_url }}"></a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <ol class="hd cl dots">
-                        {% for carousel in carousels %}
-                            <li>forloop.counter</li>
-                        {% endfor %}
-                    </ol>
-                    <a class="slider-arrow prev" href="javascript:void(0)"></a>
-                    <a class="slider-arrow next" href="javascript:void(0)"></a>
-                </div>
-            </div>
-
             <div class="mt-20 bg-fff box-shadow radius mb-5">
                 <div class="tab-category">
-                    <a href=""><strong class="current">最新发布</strong></a>
+                    <a href=""><strong class="current">搜索结果</strong></a>
                 </div>
             </div>
             <div class="art_content">
                 <ul class="index_arc">
-                    {% for blogarticle in blogarticles %}
-                        {% if blogarticle.blog_img %}
+                    {% for search in page %}
+                        {% if search.object.blog_img %}
                             <li class="index_arc_item">
-                                <a href="/article/4" class="pic">
-                                    <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
-                                         alt="{{ blogarticle.blog_title }}">
+                                <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}" class="pic">
+                                    <img class="lazyload" data-original="{{ MEDIA_URL }}{{ search.object.blog_img }}" alt="{{ search.object.blog_title }}">
                                 </a>
-                                <h4 class="title"><a href="/article/4">{{ blogarticle.blog_title }}</a></h4>
+                                <h4 class="title">
+                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                        {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
+                                    </a>
+                                </h4>
                                 <div class="date_hits">
                                     <span>Jason</span>
-                                    <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>{{ search.object.create_time }}</span>
+                                    {% for tag_name in search.object.blogtag.all %}
                                         <span>
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
@@ -127,15 +37,22 @@
                                     <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span
                                             class="cy_cmt_count">0</span></p>
                                 </div>
-                                <div class="desc">{{ blogarticle.blog_content|safe }}</div>
+                                <div class="desc">
+                                    {% highlight search.object.blog_brief with query html_tag "i" css_class "highlight_color" %}
+                                </div>
                             </li>
                         {% else %}
                             <li class="index_arc_item no_pic">
-                                <h4 class="title"><a href="">{{ blogarticle.blog_title }}</a></h4>
+                                <h4 class="title">
+                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                        {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
+
+                                    </a>
+                                </h4>
                                 <div class="date_hits">
                                     <span>Jason</span>
-                                    <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>{{ search.object.create_time }}</span>
+                                    {% for tag_name in search.object.blogtag.all %}
                                         <span>
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
@@ -144,35 +61,63 @@
                                     <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span
                                             id="sourceId::105" class="cy_cmt_count">20</span></p>
                                 </div>
-                                <div class="desc">{{ blogarticle.blog_content|safe }}</div>
+                                <div class="desc">
+                                    {% highlight search.object.blog_brief with query html_tag "i" css_class "highlight_color" %}
+                                </div>
                             </li>
                         {% endif %}
+                    {% empty %}
+                        <li>未查找到对应的文章</li>
 
                     {% endfor %}
 
+                    <div class="btn  radius btn-block" class="text-c mb-20" id="moreBlog"></div>
+                    <nav aria-label="Page navigation">
+                        {% if page.has_previous %}
+                            <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ page.previous_page_number }}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">
+                                    <input style="width:30px;font-size: 16px" type="button" value="&laquo;"/>
+                                </span>
+                            </a>
+                        {% endif %}
+
+                        {% for p in page.paginator.page_range %}
+                            <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ p }}">
+                                <input style="width:30px;font-size: 16px" type="button" value="{{ p }}"/>
+                            </a>
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                            <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ page.next_page_number }}"
+                               aria-label="Next">
+                                <span aria-hidden="true">
+                                    <input style="width:30px;font-size: 16px" type="button" value="&raquo;"/>
+                                </span>
+                            </a>
+                        {% endif %}
+                        <span style="width:30px;font-size: 16px" aria-hidden="true">当前:第{{ page.number }}页</span>
+                    </nav>
                 </ul>
-                <div class="text-c mb-20" id="moreBlog">
-                    <a class="btn  radius btn-block " href="javascript:;" onclick="moreBlog();">点击加载更多</a>
-                    <a class="btn  radius btn-block hidden" href="javascript:;">加载中……</a>
-                </div>
             </div>
         </div>
 
         <!--right-->
         <div class="col-sm-3 col-md-3">
 
-            <!--站点声明-->
+            <!--站点搜索-->
             <div class="panel panel-default mb-20">
                 <div class="panel-body">
                     <i class="Hui-iconfont" style="float: left;">&#xe62f;&nbsp;</i>
                     <div class="slideTxtBox">
-                        <div class="bd">
-                            <ul>
-                                <li><a href="javascript:void(0);">Lao博客测试版上线，欢迎访问</a></li>
-                                <li><a href="javascript:void(0);">内容如有侵犯，请立即联系管理员删除</a></li>
-                                <li><a href="javascript:void(0);">本站内容仅供学习和参阅，不做任何商业用途</a></li>
-                            </ul>
-                        </div>
+                        <form action="{% url 'search:haystack_search' %}" method="get">
+                            <div class="bd">
+                                <input type="text" name="q" value="{{ query }}" class="cate-input"
+                                       style="width: 200px;height: 20px"
+                                       placeholder="{{ query|default:'请输入您要的搜索的博客关键词' }}"/>
+                                <input type="submit" value="搜索" class="cate-btn"/>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -205,22 +150,6 @@
                             <a href="#">阻止a标签href默认跳转事件</a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
                         </li>
-                        <li>
-                            <a href="#">PHP面试题汇总</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                        <li>
-                            <a href="#">PHP面试题汇总</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -232,30 +161,6 @@
                 </div>
                 <div class="tab-category-item">
                     <ul class="index_recd clickTop">
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
-                        <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
-                        </li>
                         <li>
                             <a href="#">AJAX的刷新和前进后退问题解决</a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
@@ -376,34 +281,25 @@
             </div>
         </div>
     </section>
+
 {% endblock %}
+
 
 {% block footer %}
-    <footer class="footer mt-20">
-        <div class="container-fluid" id="foot">
-            <p>Copyright &copy; 2016-2017 www.wfyvv.com <br>
-                <a href="http://www.miitbeian.gov.cn/" target="_blank">皖ICP备17002922号</a><br>
-            </p>
-        </div>
-    </footer>
+
 {% endblock %}
 
-
-
-
-<script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'plugin/layer/3.0/layer.js' %}"></script>
-<script type="text/javascript" src="{% static 'plugin/h-ui/js/H-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'plugin/pifu/pifu.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
 {% block footer_js %}
+
+
+
+
     <script> $(function () {
         $(window).on("scroll", backToTopFun);
         backToTopFun();
     }); </script>
     <script type="text/javascript"
             src="{% static 'plugin/jquery.SuperSlide/2.1.1/jquery.SuperSlide.min.js' %}"></script>
-
     <script>
         $(function () {
 //幻灯片
@@ -417,7 +313,7 @@
                 interTime: 2000,
                 pnLoop: true,
                 titOnClassName: "active"
-            })
+            });
 //tips
             jQuery(".slideTxtBox").slide({
                 titCell: ".hd ul",
@@ -435,20 +331,9 @@
             });
 
             $("img.lazyload").lazyload({failurelimit: 3});
-        });
 
+
+        });
     </script>
 {% endblock %}
-
-
-</body>
-</html>
-
-
-
-
-
-
-
-
 

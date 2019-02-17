@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        修改个人信息
+    </title>
+    <link rel="stylesheet" href="{% static 'personal/style.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="{% static 'personal/js/jquery.js' %}"></script>
+    <script src="{% static 'personal/js/custom.js' %}"></script>
+</head>
+<body>
+<div class="accordion-wrap">
+    <div class="accordion">
+        <a href="javascript:void(0)"><i class="fa fa-user"></i>&nbsp;个人简介</a>
+        <div class="nav profile">
+
+
+
+            <input name="head" type="file"  value="上传头像"/>
+            <h3><input name="nickname" value="昵称"/></h3>
+            <div class="introduction">
+               <textarea style="width: 170px;height: 100px" name="brief">Hi, It's me Mohan. I'm a web and graphics designer. Designing is my passion and I have been working on
+                various designing projects.</textarea>
+            </div>
+        </div>
+        <a href="javascript:void(0)"><i class="fa fa-envelope"></i>&nbsp;详细信息</a>
+
+        <div class="nav">
+            <div class="chat">
+
+            </div>
+            <a href="javascript:void(0)">
+                &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><input name="phone" value="19950321432"/></span>
+            </a>
+            <a href="javascript:void(0)">
+                &nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><input name="sex" value="女"/></span>
+            </a>
+        </div>
+    <a>确认修改</a>
+    </div>
+
+    </div>
+</body>
+</html>

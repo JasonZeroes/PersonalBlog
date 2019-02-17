@@ -20,6 +20,7 @@ class BlogClassify(BaseModel):
 class BlogArticle(BaseModel):
     # 准备博客文章所需的字段
     blog_title = models.CharField(max_length=200, verbose_name="博客标题")
+    blog_brief = RichTextUploadingField(max_length=250, verbose_name="博客摘要")
     blog_content = RichTextUploadingField(verbose_name="博客内容")
     blog_img = models.ImageField(upload_to="blogarticle/%Y%m/%d", null=True, blank=True, verbose_name="博客图片地址")
     blog_status = models.SmallIntegerField(choices=((1, "0积分"),

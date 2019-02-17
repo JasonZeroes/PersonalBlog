@@ -1,0 +1,5 @@
+# 指定搜索的字段
+{{object.blog_title}}
+{{object.blog_content}}
+{{object.blog_brief}}
+{{object.blogtag.tag_name}}

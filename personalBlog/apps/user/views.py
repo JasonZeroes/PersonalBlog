@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from db.base_view import VerifyLogin
-from user.forms import UserRegisterForm, UserLoginModelForm
+from user.forms import UserRegisterForm, UserLoginModelForm, ResetPassWordForm
 from user.helper import set_password, login
 from user.models import UserModel
 
@@ -65,6 +65,43 @@ class UserLoginView(View):
             return render(request, 'user/login.html', {"form": form})
 
 
-# 定义一个类,完成用户密码的修改功能(前提要检查用户是否已经登录)
-class ResetPassWord(VerifyLogin):
-    pass
+# 定义一个类,完成用户重置密码的功能(前提要检查用户是否已经登录)
+class ResetPassWord(View):
+    # 展示重置密码界面
+    def get(self, request):
+        return render(request, 'user/resetpassword.html')
+
+    def post(self, request):
+        # 1.接受参数
+        data = request.POST
+        # 2.验证参数的合法性
+        # >>>>1.创建一个form表单验证的对象,来进行数据合法性的验证
+        form = ResetPassWordForm(data)
+        if form.is_valid():
+            # 在数据合法的情况下执行
+            # 接受清洗后的数据
+            # 1.<<<< 接收手机号码
+            phone = form.cleaned_data.get("phone")
+            # 2.<<<< 接收密码
+            password = form.cleaned_data.get("password")
+            # 3.将密码加密
+            password = set_password(password)
+            # 将接受的数据,保存到数据当中
+            UserModel.objects.filter(phone=phone).update(password=password)
+            # 保存到数据库成功
+            return redirect("user:用户登录")
+        else:
+            # 在数据不合法的情况下
+            return render(request, 'user/resetpassword.html', {"form": form})
+
+
+# 定义一个类用户展示用户的个人中心
+class PersonalCenter(VerifyLogin):
+    def get(self, request):
+        return render(request, "user/personal.html")
+
+
+# 定义一个类, 实现编辑个人信息
+class EditPersoninfo(VerifyLogin):
+    def get(self, request):
+        return render(request, "user/edit_personal.html")

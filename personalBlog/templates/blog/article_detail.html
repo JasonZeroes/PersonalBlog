@@ -14,7 +14,11 @@
     <div class="panel panel-default  mb-10">
         <div class="panel-body pt-10 pb-10">
             <h2 class="c_titile">{{ blogarticle.blog_title }}</h2>
-            <p class="box_c"><span class="d_time">发布时间：{{ blogarticle.create_time }}</span><span>编辑：<a href="">Jason</a>
+            <p class="box_c">
+                <span class="d_time">
+                    发布时间：{{ blogarticle.create_time }}</span>
+                <span>编辑：<a href="#">Jason</a>
+                </span>
             </p>
             <ul class="infos">
                 <li>{{ blogarticle.blog_content|safe }}</li>
@@ -49,11 +53,11 @@
             {% csrf_token %}
             <div class="panel panel-default  mb-20" id="ct">
                 <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                <textarea id="textarea1" name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+                <textarea class="comment-content" id="textarea1" name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
                 <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
                 <input type="hidden" name="parent_id" value="0"/>
                 <div class="text-r mt-10">
-                    <button class="btn btn-primary radius fabiao"> 发表评论</button>
+                    <button type="button" class="btn btn-primary radius fabiao"> 发表评论</button>
                 </div>
             </div>
         </form>
@@ -62,94 +66,88 @@
 
         <ul class="commentList mt-50">
             {% for comment in comments %}
-                {% if comment.parent_id == 0  %}
-                    <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                 src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                <div class="comment-main">
+                {% if comment.parent_id == 0 %}
+                    <input type="hidden" value="{{ blogarticle.pk }}"/>
+                    <li class="item cl reply-blog_id"><a href="#">
+                    <i class="avatar size-L radius"><img alt="" src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+                    <div class="comment-main">
                     <header class="comment-header">
-                        <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.phone }}</a>
+                        <div class="comment-meta">
+                            <a class="comment-author" href="#">{{ comment.user.phone }}</a>
                             <time title="" datetime="" class="f-r">{{ comment.create_time }}</time>
                         </div>
                     </header>
                     <div class="comment-body">
-                        {{ comment.content|safe }}
+                     <input id="reply-parent-id" type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
+                    {{ comment.content|safe }}
 
-
-                        {% endif %}
-
-                        {% comment %}<ul class="commentList">
-                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                                <div class="comment-main">
-                                    <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">
-                                                2014-8-31 15:20
-                                            </time>
+                    <ul class="commentList">
+                        {% for reply in comments %}
+                            {% if reply.parent_id == comment.pk %}
+                                <li class="item cl">
+                                    <a href="#"><i class="avatar size-L radius"><img alt=""
+                                                                                     src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
+                                    <div class="comment-main">
+                                        <header class="comment-header">
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#">{{ reply.user.phone }}</a>
+                                                <time class="f-r">{{ reply.create_time }}
+                                                </time>
+                                            </div>
+                                        </header>
+                                        <div class="comment-body">
+                                            <p>{{ reply.content }}</p>
                                         </div>
-                                    </header>
-                                    <div class="comment-body">
-                                        <p> 是的</p>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                                 src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
-                                <div class="comment-main">
-                                    <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">
-                                                2014-8-31 15:20
-                                            </time>
-                                        </div>
-                                    </header>
-                                    <div class="comment-body">
-                                        <p> +1</p>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>{% endcomment %}
-
-                        <button class="hf f-r btn btn-default size-S mt-10 reply" name="2">回复</button>
-
-                    </div>
-                </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
+                {% endif %}
+            </div>
+            </div>
             </li>
+
             {% endfor %}
-{% comment %}<li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt=""
-     src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                <div class="comment-main">
-                    <header class="comment-header">
-                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20
-                            </time>
-                        </div>
-                    </header>
-                    <div class="comment-body">
-                        你是猴子派来的救兵吗？
-                        <button class="hf f-r btn btn-default size-S mt-10" name="3">回复</button>
-                    </div>
-                </div>
-            </li>
-{% endcomment %}
+        <div class="text-c mb-20" id="moreBlog">
+                 <nav aria-label="Page navigation">
+                            {% if comments.has_previous %}
+                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.previous_page_number }}"
+                                   aria-label="Previous">
+                                <span aria-hidden="true"><input style="width:20px" type="button" value="&laquo;"/>
+                                </span>
+                                </a>
+                            {% endif %}
+
+                            {% for p in comments.paginator.page_range %}
+                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ p }}">
+                                    <input style="width:20px" type="button" value="{{ p }}"/>
+                                </a>
+                            {% endfor %}
+
+                            {% if blogarticles.has_next %}
+                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.next_page_number }}"
+                                   aria-label="Next">
+                                <span aria-hidden="true">
+                                    <input style="width:20px" type="button" value="&raquo;"/>
+                                </span>
+                                </a>
+                            {% endif %}
+                            <span aria-hidden="true">当前:第{{ comments.number }}页</span>
+                        </nav>
+        </div>
 
         </ul>
 
 
         <!--用于回复-->
-        <div class="comment hidden mt-20">
-            <form class="reply" action="{% url 'comments:博客评论' %}" method="post">
-                {% csrf_token %}
+        <div class="comment hidden mt-20 ">
             <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-            <textarea name="reply" class="textarea" style="height:100px;"> </textarea>
-                <input type="hidden" class="reply-blog_id" name="blog_id" value="{{ blogarticle.pk }}"/>
-                <input type="hidden" class="reply-parent_id" name="parent_id" value="{{ comment.pk }}"/>
+            <textarea class="textarea reply-content" style="height:100px;"> </textarea>
             <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
             <a class="cancelReply f-r mt-10 ">取消回复</a>
-                </form>
         </div>
-
     </div>
 
 
@@ -171,12 +169,9 @@
         $(function () {
             wangEditor.config.printLog = false;
             var editor1 = new wangEditor('textarea1');
-            editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'img', 'emotion', '|', 'undo', 'fullscreen'];
-            {% comment %}editor1.config.emotions = {
-                'default': {title: '老王表情', data: 'plugin/wangEditor/emotions1.data'},
-                'default2': {title: '老王心情', data: 'plugin/wangEditor/emotions3.data'},
-                'default3': {title: '顶一顶', data: 'plugin/wangEditor/emotions2.data'}
-            };{% endcomment %}
+            editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'emotion', '|', 'undo', 'fullscreen'];
+
+
             editor1.create();
 
             //show reply
@@ -196,65 +191,95 @@
 
             // 实现评论功能
             $(".fabiao").on("click", function () {
-                console.debug(111);
+                //console.debug(111);
                 var self = $(this);
                 // 准备发送ajax的数据
                 var data = $("form").serialize();
                 //获取博客文章的id
                 var blog_id = parseInt(self.siblings('input').val());
                 //console.debug(blog_id);
-                //发动ajax请求
-                $.ajax({
-                    type: "post",
-                    url: "{% url 'comments:博客评论' %}",
-                    data: data,
-                    dataType: "json",
-                    success: function (data) {
-                        console.debug(data);
-                        alert(data.errmsg);
-                        location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
+                var comment = $(".comment-content").val();
+                console.debug(comment);
+                 //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'comments:博客评论' %}",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 1) {
+                                if (confirm("您还没有登录,是否立即登录?")) {
+                                    location.href = "{% url 'user:用户登录' %}";
+                                }
+                            } else {
+                                alert(data.errmsg);
+                                location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
+                            }
                         }
+                    })
 
-                })
+
 
 
             });
 
 
-
-
             //实现回复功能
-  {% comment %}          $(".reply").on("click", function () {
+            $(".reply").on("click", function () {
                 //console.debug(22222)
                 var self = $(this);
+
                 // 准备发送ajax的数据
-                var data = $("form.reply").serialize();
-                console.debug(data);
-                //获取博客文章的id
-                var blog_id = parseInt(self.siblings('input').val());
-                //console.debug(blog_id);
-                //发动ajax请求
-                $.ajax({
-                    type: "post",
-                    url: "{% url 'comments:博客评论' %}",
-                    data: data,
-                    dataType: "json",
-                    success: function (data) {
-                        //console.debug(data);
-                        if (data.code == 0) {
-                            if (confirm("回复成功!")){
+                // 获取回复的内容
+                var reply = $(".reply-content").val();
+                console.debug(reply);
+                if (reply.length == 0){
+                    alert("回复不能为空哦!")
+
+                }else{
+                    //获取博客文章的id
+                    var blog_id = $(".reply-blog_id").siblings('input').val();
+                    console.debug(blog_id);
+                    //获取评论的id
+                    var parent_id = $(".reply-parent-id").val();
+                    console.debug(parent_id);
+
+                    // 准备json数据
+                    var data = {
+                        "blog_id": blog_id,
+                        "parent_id": parent_id,
+                        "reply": reply,
+                        "csrfmiddlewaretoken": "{{ csrf_token }}"
+                    };
+
+                    //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'comments:博客评论回复' %}",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 1) {
+                                if (confirm("您还没有登录,是否立即登录?")) {
+                                    location.href = "{% url 'user:用户登录' %}";
+                                }
+                            } else {
+                                alert(data.errmsg);
                                 location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                             }
-                        }else{
-                             alert(data.errmsg);
-                            location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                         }
-                    }
-                })
+                    })
 
-            }){% endcomment %}
+
+                }
+
+            })
+
 
         });
+
 
     </script>
 {% endblock %}

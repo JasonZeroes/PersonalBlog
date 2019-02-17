@@ -37,7 +37,7 @@ class UserRegisterForm(forms.Form):
             # 在查询结果为False的情况下
             return phone
 
-    # >>>>>>5.定义一个方法,验证用户两次输入的手机号码是否一致
+    # >>>>>>5.定义一个方法,验证用户两次输入的密码是否一致
     def clean(self):
         # 首先获取用户两次输入的密码
         password = self.cleaned_data.get('password')
@@ -92,3 +92,47 @@ class UserLoginModelForm(forms.ModelForm):
             return self.cleaned_data
 
 
+# 创建一个验证用户重置密码的Form类
+class ResetPassWordForm(forms.Form):
+    # 首先验证手机号码是否填写
+    phone = forms.CharField(error_messages={
+        "required": "手机号码必须填写!"
+    })
+    # 验证用户输入的密码
+    password = forms.CharField(min_length=8,
+                               max_length=16,
+                               error_messages={
+                                   "required": "密码必须填写!",
+                                   "min_length": "密码最少8个字符!",
+                                   "max_length": "密码最长为16个字符!"
+                               })
+    password2 = forms.CharField(error_messages={
+        "required": "密码必须填写!"
+    })
+
+    # 定义一个方法, 验证用户侧手机号码是否已经注册
+    def clean_phone(self):
+        # 获取用户传来的手机号码
+        phone = self.cleaned_data.get("phone")
+        # 到数据库查询此手机号码是否已经存在
+        flag = UserModel.objects.filter(phone=phone).exists()
+        # 对查询结果进行判断
+        if flag == 0:
+            # 没有查询到对应的手机号码
+            raise forms.ValidationError("该手机号码还未注册!请前往注册页面进行注册!")
+        else:
+            # 查询到了手机号码
+            return phone
+
+    # 定义一个方法, 验证两次输入的密码是否一致
+    def clean(self):
+        # 首先获取两次输入的密码
+        password = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("password2")
+        # 判断两次的密码是否都为真, 且两次的密码一致
+        if password and password2 and password != password2:
+            # 在两次密码为真且不相等的情况下执行
+            raise forms.ValidationError({"password2": "两次输入的密码不一致!"})
+        else:
+            # 两次密码为真,且相等的情况下执行
+            return self.cleaned_data

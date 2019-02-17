@@ -51,7 +51,7 @@ class BlogDetailView(View):
         # 获取博客id
         blog_id = int(request.GET.get("blog_id"))
 
-        # 根据博客文章的id, 查询出博客的详细信息.及博客的评论
+        # 根据博客文章的id, 查询出博客的详细信息.及博客的评论与回复
         try:
             blogarticle = BlogArticle.objects.get(pk=blog_id)
             classify = BlogClassify.objects.get(pk=blogarticle.blogclassify_id)
@@ -59,7 +59,20 @@ class BlogDetailView(View):
         except:
             return redirect("blog:博客首页")
 
-        # 判断博客文章的状态, 如果不需要积分就直接显示详情, 否则要购买才能进行阅读
+        # 实现分页功能 Paginator
+        paginator = Paginator(comments, 10)
+        # 获取当前页面的页码
+        page = request.GET.get("page", 1)
+        # 获取对应页码的数据
+        try:
+            comments = paginator.page(page)
+        except PageNotAnInteger:
+            # 页码不是整数的时候, 显示第一页
+            comments = paginator.page(1)
+        except EmptyPage:
+            # 页码为空的时候, 显示最后一页
+            comments = paginator.page(paginator.num_pages)
+
         # 准备参数
         context = {
             "blogarticle": blogarticle,

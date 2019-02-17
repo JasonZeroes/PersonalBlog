@@ -21,14 +21,14 @@ class Comments(VerifyLogin):
         blog_id = int(data.get("blog_id")[0])
         # 判断该用户是否具备评价资格
         if UserModel.objects.get(pk=user_id).user_status != 1:
-            return JsonResponse(json_msg(1, "您已经被禁言!7天后解除限制!"))
+            return JsonResponse(json_msg(2, "您已经被禁言!7天后解除限制!"))
 
         # 判断评论id是否存在
         parent_id = int(data.get("parent_id")[0])
         # try:
         #     CommentsModel.objects.get(pk=parent_id)
         # except CommentsModel.DoesNotExist:
-        #     return JsonResponse(json_msg(2, "回复的评论不存在!"))
+        #     return JsonResponse(json_msg(3, "回复的评论不存在!"))
 
         # 主要是对评论内容进行判断合法性
         content = data.get("content")
@@ -49,7 +49,7 @@ class Comments(VerifyLogin):
             )
             return JsonResponse(json_msg(0, "评论成功!", data=blog_id))
         else:
-            return JsonResponse(json_msg(3, "评论字符少于5个!", data=blog_id))
+            return JsonResponse(json_msg(4, "评论字符少于5个!", data=blog_id))
 
 
 # 创将一个类, 实现对评论的回复功能
@@ -64,14 +64,14 @@ class Reply(VerifyLogin):
         blog_id = int(data.get("blog_id")[0])
         # 判断该用户是否具备评价资格
         if UserModel.objects.get(pk=user_id).user_status != 1:
-            return JsonResponse(json_msg(1, "您已经被禁言!7天后解除限制!"))
+            return JsonResponse(json_msg(2, "您已经被禁言!7天后解除限制!"))
 
         # 判断评论id是否存在
         parent_id = int(data.get("parent_id")[0])
-        # try:
-        #     CommentsModel.objects.get(pk=parent_id)
-        # except CommentsModel.DoesNotExist:
-        #     return JsonResponse(json_msg(2, "回复的评论不存在!"))
+        try:
+            CommentsModel.objects.get(pk=parent_id)
+        except CommentsModel.DoesNotExist:
+            return JsonResponse(json_msg(3, "回复的评论不存在!"))
 
         # 主要是对评论内容进行判断合法性
         content = data.get("reply")
@@ -92,5 +92,5 @@ class Reply(VerifyLogin):
             )
             return JsonResponse(json_msg(0, "回复成功!", data=blog_id))
         else:
-            return JsonResponse(json_msg(3, "回复字符少于5个!", data=blog_id))
+            return JsonResponse(json_msg(4, "回复字符少于5个!", data=blog_id))
 

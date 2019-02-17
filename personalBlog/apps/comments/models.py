@@ -2,7 +2,6 @@ from django.db import models
 from db.base_model import BaseModel
 
 
-
 # 创建一个用户评论的模型
 class CommentsModel(BaseModel):
     content = models.TextField(verbose_name="评论内容")
@@ -16,4 +15,3 @@ class CommentsModel(BaseModel):
     class Meta:
         verbose_name = "博客评论管理"
         verbose_name_plural = verbose_name
-

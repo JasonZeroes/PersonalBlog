@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        个人中心
+    </title>
+    <link rel="stylesheet" href="{% static 'personal/style.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="{% static 'personal/js/jquery.js' %}"></script>
+    <script src="{% static 'personal/js/custom.js' %}"></script>
+</head>
+<body>
+<div class="accordion-wrap">
+    <div class="accordion">
+        <a href="javascript:void(0)"><i class="fa fa-user"></i>&nbsp;个人简介</a>
+        <div class="nav profile">
+            <div class="photo">
+                <div class="mask-layer">
+                </div>
+            </div>
+            <h3>昵称</h3>
+
+        </div>
+        <a href="javascript:void(0)"><i class="fa fa-envelope"></i>&nbsp;详细信息</a>
+
+        <div class="nav">
+            <div class="chat">
+
+            </div>
+            <a href="javascript:void(0)">
+                &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>19950321432</span>
+            </a>
+            <a href="javascript:void(0)">
+                &nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>女</span>
+            </a>
+        </div>
+ <a href="{% url 'user:用户编辑个人信息' %}">编辑个人信息</a>
+    </div>
+
+    </div>
+</body>
+</html>

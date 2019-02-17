@@ -1,7 +1,9 @@
 import hashlib
 
+from django.http import JsonResponse
 from django.shortcuts import redirect
 
+from comments.helper import json_msg
 from personalBlog.settings import SECRET_KEY
 
 
@@ -34,10 +36,22 @@ def check_login(func):
     def verify_ligin(request, *args, **kwargs):
         # 验证session中是否有用户的登录信息
         if request.session.get('id') is None:
-            return redirect("user:用户登录")
+            # 将上次请求的地址保存到session中
+            # 获得上次请求的referer地址值
+            referer = request.META.get("HTTP_REFERER", None)
+            # 判断上次请求的referer是否存在
+            if referer:
+                # 在存在的基础之下
+                request.session["referer"] = referer
+            # 判断请求是不是ajax请求
+            if request.is_ajax():
+                # 在用户地方为None, 且是ajax的请求的时候
+                return JsonResponse(json_msg(1, "您还未登录!"))
+            else:
+                # 跳转到登录界面
+                return redirect("user:用户登录")
         else:
             # 调用原函数
             return func(request, *args, **kwargs)
-
     # 返回新函数名
     return verify_ligin

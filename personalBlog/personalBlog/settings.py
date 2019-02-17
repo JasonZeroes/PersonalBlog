@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',  # 配置全文检索框架
     # 将子应用安装得到应用列表当中
     'user.apps.UserConfig',  # 安装用户模块
     'blog.apps.BlogConfig',  # 安装博客模块
@@ -147,10 +148,27 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-
-
 # 配置静态文件路径
 MEDIA_URL = "/static/media/"   # 分配一个资源URL
 # 配置该URL对应的物理目录存储地址
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+
+# 全文检索框架的配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 配置搜索引擎
+        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        # 修改为自己的中文分词 使用jieba的whoosh引擎
+        'ENGINE': 'utils.whoosh_cn_backend.WhooshEngine',
+        # 配置索引文件目录
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+
+# 当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# 限制搜索每页显示多少条
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2
 
