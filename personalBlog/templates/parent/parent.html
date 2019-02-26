@@ -2,16 +2,16 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Jason个人博客 — 一个站在Python开发之路上的草根程序员个人博客网站</title>
+    <title>Jason个人博客</title>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="{% static 'Cache-Control' %}" content="no-siteapp"/>
     <meta name="keywords" content="个人博客,Jason个人博客,个人博客系统,Jason博客">
     <meta name="description" content="Jason博客系统，一个站在Python开发之路上的草根程序员个人博客网站。">
-    <LINK rel="Bookmark" href="{% static 'favicon.ico' %}">
+    <LINK rel="Bookmark" href="{% static 'favicon.ico' %}" >
     <LINK rel="Shortcut Icon" href="{% static 'favicon.ico' %}"/>
 
     <link rel="stylesheet" type="text/css" href="{% static 'plugin/h-ui/css/H-ui.min.css' %}"/>
@@ -41,6 +41,7 @@
 
 </head>
 <body>
+{% block header %}
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
         <div class="container cl">
@@ -52,26 +53,32 @@
                onclick="showSide();">&#xe667;</a>
             <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
                 <ul class="cl">
-                    <li><a href="{% url 'blog:博客分类列表' 1 %}" data-hover="编码入门、进阶">编码入门、进阶</a></li>
+                    <li><a href="{% url 'blog:博客分类列表' 1 %}" data-hover="代码天地">代码天地</a></li>
                     <li><a href="{% url 'blog:博客分类列表' 2 %}" data-hover="机器学习">机器学习</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 3 %}" data-hover="Web开发">Web开发</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 4 %}" data-hover="爬虫、数据分析">爬虫、数据分析</a></li>
-                    <li><a href="{% url 'blog:博客分类列表' 5 %}" data-hover="留言足迹">留言足迹</a></li>
-                    {% comment %}<li> <a href="{% url 'blog:博客分类列表' 6 %}" data-hover="留言脚印">留言脚印</a></li>{% endcomment %}
+                    <li><a href="{% url 'blog:博客分类列表' 4 %}" data-hover="数据分析">数据分析</a></li>
+                    <li><a href="{% url 'blog:博客分类列表' 5 %}" data-hover="闲情逸致">闲情逸致</a></li>
+                    <li><a href="{% url 'user:用户留言' %}" data-hover="留言足迹">留言足迹</a></li>
+
 
                 </ul>
             </nav>
             <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
                 <ul class="cl">
                     <li class="userInfo dropDown dropDown_hover">
-                        <a href="{% url 'user:用户个人中心' %}"><img class="avatar size-S"
-                                                               src="{% static 'img/qq.jpg' %}"></a>
+                        {% if user %}
+                        <a href="{% url 'user:用户个人中心' %}" target="_blank">
+                            <img class="avatar size-S" src="{{ MEDIA_URL }}{{ user.head }}"></a>&emsp;<a href="#"><input class="btn btn-secondary-outline radius size-S" type="button" value="退出登录"/></a>
+                            {% else %}
+                            <a href="{% url 'user:用户登录' %}"><input class="btn btn-secondary-outline radius size-S" type="button" value="未登录"/></a>
+                        {% endif %}
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
 </header>
+{% endblock %}
+
 
 
 
@@ -140,9 +147,8 @@
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span
-                                            id="sourceId::105" class="cy_cmt_count">20</span></p>
+                                <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span id="sourceId::105" class="cy_cmt_count">20</span></p>
                                 </div>
                                 <div class="desc">{{ blogarticle.blog_content|safe }}</div>
                             </li>
@@ -381,7 +387,7 @@
 {% block footer %}
     <footer class="footer mt-20">
         <div class="container-fluid" id="foot">
-            <p>Copyright &copy; 2016-2017 www.wfyvv.com <br>
+            <p>Copyright &copy; 2019-2020 www.jason.com <br>
                 <a href="http://www.miitbeian.gov.cn/" target="_blank">皖ICP备17002922号</a><br>
             </p>
         </div>
@@ -396,6 +402,8 @@
 <script type="text/javascript" src="{% static 'plugin/h-ui/js/H-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'plugin/pifu/pifu.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+
+
 {% block footer_js %}
     <script> $(function () {
         $(window).on("scroll", backToTopFun);
@@ -443,12 +451,4 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
 

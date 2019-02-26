@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="art_content">
-                <ul class="index_arc">
+                {% comment %}<ul class="index_arc">
                     {% for search in page %}
                         {% if search.object.blog_img %}
                             <li class="index_arc_item">
@@ -33,14 +33,9 @@
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
-                                    </i>{{ search.object.blog_count }}
-                                    </p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
-                                    </i>
-                                        <span id="sourceId::105" class="cy_cmt_count">{{ search.object.commentsmodel_set.all.count }}
-                                        </span>
-                                    </p>
+                                    <p class="hits"><i class="Hui-iconfont" title="点击量"></i> 13° </p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span
+                                            class="cy_cmt_count">0</span></p>
                                 </div>
                                 <div class="desc">
                                     {% highlight search.object.blog_brief with query html_tag "i" css_class "highlight_color" %}
@@ -62,14 +57,9 @@
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
-                                    </i>{{ search.object.blog_count }}
-                                    </p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
-                                    </i>
-                                        <span id="sourceId::105" class="cy_cmt_count">{{ search.object.commentsmodel_set.all.count }}
-                                        </span>
-                                    </p>
+                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span
+                                            id="sourceId::105" class="cy_cmt_count">20</span></p>
                                 </div>
                                 <div class="desc">
                                     {% highlight search.object.blog_brief with query html_tag "i" css_class "highlight_color" %}
@@ -77,28 +67,24 @@
                             </li>
                         {% endif %}
                     {% empty %}
-                        <li style="background-color: #a1e9ee" class="index_arc_item text-l">
-                        <br/>
-                        <p style="font-size: 20px">未查找到对应的文章哦!</p>
-                        <p>请移步其他分类吧!</p>
-                    </li>
+                        <li>未查找到对应的文章</li>
 
                     {% endfor %}
 
-
+                    <div class="btn  radius btn-block" class="text-c mb-20" id="moreBlog"></div>
                     <nav aria-label="Page navigation">
                         {% if page.has_previous %}
                             <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ page.previous_page_number }}"
                                aria-label="Previous">
                                 <span aria-hidden="true">
-                                    <input class="btn btn-success radius size-M" type="button" value="&laquo;">
+                                    <button type="button" style="width:30px;font-size: 16px;background-color: #4cb7e9">&laquo;</button>
                                 </span>
                             </a>
                         {% endif %}
 
                         {% for p in page.paginator.page_range %}
                             <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ p }}">
-                            <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
+                            <button type="button" style="width:30px;font-size: 16px;background-color: #4cb7e9">{{ p }}</button>
                             </a>
                         {% endfor %}
 
@@ -106,13 +92,102 @@
                             <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ page.next_page_number }}"
                                aria-label="Next">
                                 <span aria-hidden="true">
-                                    <input class="btn btn-success radius size-M" type="button" value="&raquo;">
+                                    <button type="button" style="width:30px;font-size: 16px;background-color: #4cb7e9">&raquo;</button>
+                                </span>
+                            </a>
+                        {% endif %}
+                        <span style="width:30px;font-size: 16px" aria-hidden="true">当前:第{{ page.number }}页</span>
+                    </nav>
+                </ul>{% endcomment %}
+
+                <ul class="index_arc">
+                {% for blogarticle in blogarticles %}
+                    {% if blogarticle.blog_img %}
+                        <li class="index_arc_item">
+                            <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}" class="pic">
+                                <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
+                                     alt="{{ blogarticle.blog_title }}">
+                            </a>
+                            <h4 class="title"><a
+                                    href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">{{ blogarticle.blog_title }}</a></h4>
+                            <div class="date_hits">
+                                <span>Jason</span>
+                                <span>{{ blogarticle.create_time }}</span>
+                                {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>
+                        <a href="/article?t=1">{{ tag_name }}</a>
+                    </span>
+                                {% endfor %}
+                                                                          <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
+                                    </i>{{ blogarticle.blog_count }}
+                                    </p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
+                                    </i>
+                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
+                                        </span>
+                                    </p>
+                            </div>
+                            <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
+                        </li>
+                    {% else %}
+                        <li class="index_arc_item no_pic">
+                            <h4 class="title"><a
+                                    href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">{{ blogarticle.blog_title }}</a></h4>
+                            <div class="date_hits">
+                                <span>Jason</span>
+                                <span>{{ blogarticle.create_time }}</span>
+                                {% for tag_name in blogarticle.blogtag.all %}
+                                    <span>
+                        <a href="/article?t=1">{{ tag_name }}</a>
+                    </span>
+                                {% endfor %}
+                                                                   <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
+                                    </i>{{ blogarticle.blog_count }}
+                                    </p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
+                                    </i>
+                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
+                                        </span>
+                                    </p>
+                            </div>
+                            <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
+                        </li>
+                    {% endif %}
+                    {% empty %}
+                   <li style="background-color: #a1e9ee" class="index_arc_item text-l">
+                        <br/>
+                        <p style="font-size: 20px">未查找到对应的文章哦!</p>
+                        <p>请移步其他分类吧!</p>
+                    </li>
+
+                {% endfor %}
+{#                    分页#}
+                    <nav aria-label="Page navigation">
+                        {% if blogarticles.has_previous %}
+                            <a href="{% url 'blog:标签搜索分类' tag.pk %}?page={{ blogarticles.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">
+                                   <input class="btn btn-success radius size-M" type="button" value="&laquo;">
                                 </span>
                             </a>
                         {% endif %}
 
+                        {% for p in blogarticles.paginator.page_range %}
+                            <a href="{% url 'blog:标签搜索分类' tag.pk %}?page={{ p }}">
+                             <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
+                            </a>{% endfor %}
+
+                        {% if blogarticles.has_next %}
+
+                            <a href="{% url 'blog:标签搜索分类' tag.pk %}?page={{ blogarticles.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <input class="btn btn-success radius size-M" type="button" value="&raquo;">
+                                </span>
+                            </a>
+                        {% endif %}
                     </nav>
+
                 </ul>
+
             </div>
         </div>
 
@@ -126,7 +201,7 @@
                     <div class="slideTxtBox">
                         <form action="{% url 'search:haystack_search' %}" method="get">
                             <div class="bd">
-                               <input type="text" name="q" class="scrollHeight" style="width: 170px;height: 25px" placeholder="请输入您要的搜索的博客关键词"/>
+                                <input type="text" name="q" class="scrollHeight" style="width: 170px;height: 25px" placeholder="请输入您要的搜索的博客关键词"/>
                                 <input type="submit" value="搜索" class="btn btn-success radius size-S"/>
                             </div>
                         </form>

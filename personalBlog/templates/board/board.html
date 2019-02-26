@@ -1,0 +1,305 @@
+{% extends 'parent/parent.html' %}
+{% load static %}
+
+
+<header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container cl">
+            <a class="navbar-logo hidden-xs" href="http://www.wfyvv.com">
+                <img class="logo" src="img/logo.png" alt="Lao王博客"/>
+            </a>
+            <a class="logo navbar-logo-m visible-xs" href="/">Lao王博客</a>
+            <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);"
+               onclick="showSide();">&#xe667;</a>
+            <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
+                <ul class="cl">
+                    <li class="active"><a href="index.html" data-hover="首页">首页</a></li>
+                    <li><a href="about.html" data-hover="关于我">关于我</a></li>
+                    <li><a href="mood.html" data-hover="碎言碎语">碎言碎语</a></li>
+                    <li><a href="article.html" data-hover="学无止尽">学无止尽</a></li>
+                    <li><a href="board.html" data-hover="留言板">留言板</a></li>
+                </ul>
+            </nav>
+            <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
+                <ul class="cl">
+                    <li class="userInfo dropDown dropDown_hover">
+                        <!--<a href="javascript:;" ><img class="avatar radius" src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="丶似浅 "></a>
+                        <ul class="dropDown-menu menu radius box-shadow">
+                            <li><a href="/app/loginOut">退出</a></li>
+                        </ul>-->
+                        <a href="/app/qq" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"><img
+                                class="avatar size-S" src="img/qq.jpg" title="登入">登入</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+
+{% block content %}
+    <!--导航条-->
+    <nav class="breadcrumb">
+        <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="/" class="c-primary">首页</a> <span
+                class="c-gray en">&gt;</span> <span class="c-gray">留言板</span></div>
+    </nav>
+    <section class="container">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 mt-20">
+
+            <div class="panel panel-default  mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>留言区</strong></a>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body" style="margin: 0 3%;">
+                        <div class="mb-20">
+
+                            <!--用于评论-->
+                            <form action="{% url 'user:用户留言' %}" method="post">
+                                {% csrf_token %}
+                                <div class="panel panel-default  mb-20" id="ct">
+                                    <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                                    <textarea class="board-content" id="textarea1" name="content" style="height:200px;"
+                                              placeholder="看完不留一发？"> </textarea>
+                                    <input type="hidden" name="parent_id" value="0"/>
+                                    <div class="text-r mt-10">
+                                        <button type="button" class="btn btn-primary radius board"> 发表留言</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="line"></div>
+                            <ul class="commentList mt-50">
+                                {% for board in boards %}
+                                    {% if board.parent_id == 0 %}
+                                        <li class="item cl"><a href="#">
+                                            <i class="avatar size-L radius"><img alt="" src="
+                                                    {{ MEDIA_URL }}{{ board.user.head }}"></i></a>
+                                            <div class="comment-main">
+                                                <header class="comment-header">
+                                                    <div class="comment-meta"><a class="comment-author"
+                                                                                 href="#">{{ board.user.nickname }}</a>
+                                                        <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                                                              class="f-r">{{ board.create_time }}
+                                                        </time>
+                                                    </div>
+                                                </header>
+                                                <div class="comment-body">
+                                                    <input type="hidden" class="reply-parent-id"
+                                                           value="{{ comment.pk }}"/>
+                                                    {{ board.content|safe }}
+                                                    <!--展示回复-->
+                                                    <ul class="commentList">
+                                                        {% for reply in  replies %}
+                                                            {% if reply.parent_id == board.pk %}
+                                                                <li class="item cl"><a href="#"><i
+                                                                        class="avatar size-L radius"><img alt="" src="
+                                                                        {{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
+                                                                    <div class="comment-main">
+                                                                        <header class="comment-header">
+                                                                            <div class="comment-meta">
+                                                                                <a class="comment-author"
+                                                                                   href="#">{{ reply.user.nickname }}</a>
+                                                                                <time title="2014年8月31日 下午3:20"
+                                                                                      datetime="2014-08-31T03:54:20"
+                                                                                      class="f-r">
+                                                                                    {{ reply.create_time }}
+                                                                                </time>
+                                                                            </div>
+                                                                        </header>
+                                                                        <div class="comment-body">
+                                                                            <p>{{ reply.content }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    </ul>
+                                                    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复
+                                                    </button>
+                                                    <input type="hidden" class="reply-parent-id"
+                                                           value="{{ board.pk }}"/>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+
+
+                            <div class="mt-20 text-c">
+                                <nav aria-label="Page navigation">
+                                    {% if boards.has_previous %}
+                                        <a href="{% url 'user:用户留言' %}?page={{ boards.previous_page_number }}"
+                                           aria-label="Previous">
+                                <span aria-hidden="true">
+                                    <input class="btn btn-success radius size-M" type="button" value="&laquo;">
+                                </span>
+                                        </a>
+                                    {% endif %}
+
+                                    {% for p in boards.paginator.page_range %}
+                                        <a href="{% url 'user:用户留言' %}?page={{ p }}">
+                                            <input class="btn btn-secondary radius size-M" type="button"
+                                                   value="{{ p }}">
+                                        </a>
+                                    {% endfor %}
+
+                                    {% if blogarticles.has_next %}
+                                        <a href="{% url 'user:用户留言' %}?page={{ boards.next_page_number }}"
+                                           aria-label="Next">
+                                <span aria-hidden="true">
+                                     <input class="btn btn-success radius size-M" type="button" value="&raquo;">
+                                </span>
+                                        </a>
+                                    {% endif %}
+                                </nav>
+                            </div>
+
+                            <!--用于回复-->
+                            <div class="comment hidden mt-20 ">
+                                <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+
+                                <textarea class="textarea reply-content" id="textarea2"
+                                          style="height:100px;"> </textarea>
+                                <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
+                                <a class="cancelReply f-r mt-10 ">取消回复</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block footer_js %}
+    <script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugin/layer/3.0/layer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugin/h-ui/js/H-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugin/pifu/pifu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+    <script> $(function () {
+        $(window).on("scroll", backToTopFun);
+        backToTopFun();
+    }); </script>
+    <script type="text/javascript" src="{% static 'plugin/wangEditor/js/wangEditor.min.js' %}"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            wangEditor.config.printLog = false;
+            var editor1 = new wangEditor('textarea1');
+            editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'emotion', '|', 'undo', 'fullscreen'];
+
+
+            editor1.create();
+
+            //show reply
+            $(".hf").click(function () {
+                pId = $(this).attr("name");
+                $(this).parents(".commentList").find(".cancelReply").trigger("click");
+                $(this).parent(".comment-body").append($(".comment").clone(true));
+                $(this).parent(".comment-body").find(".comment").removeClass("hidden");
+                $(this).hide();
+            });
+            //cancel reply
+            $(".cancelReply").on('click', function () {
+                $(this).parents(".comment-body").find(".hf").show();
+                $(this).parents(".comment-body").find(".comment").remove();
+            });
+
+
+            // 实现评论功能
+            $(".board").on("click", function () {
+                console.debug(111);
+                var self = $(this);
+                // 准备发送ajax的数据
+                var data = $("form").serialize();
+                var board = $(".board-content").val();
+                console.debug(board);
+                //发动ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'user:用户留言' %}",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        //console.debug(data);
+                        if (data.code == 1) {
+                            if (confirm("您还没有登录,是否立即登录?")) {
+                                location.href = "{% url 'user:用户登录' %}";
+                            }
+                        } else {
+                            alert(data.errmsg);
+                            location.href = "{% url 'user:用户留言' %}";
+                        }
+                    }
+                })
+
+
+            });
+
+
+            //实现回复功能
+            $(".reply").on("click", function () {
+                //console.debug(22222)
+                var self = $(this);
+
+                // 准备发送ajax的数据
+                // 获取回复的内容
+                var reply = $(".reply-content").val();
+                //console.debug(reply);
+                if (reply.length == 0) {
+                    alert("回复不能为空哦!")
+
+                } else {
+                    //获取留言的id
+                    var parent_id = self.parent().prev().val();
+                    //console.debug(parent_id);
+
+                    // 准备json数据
+                    var data = {
+                        "parent_id": parent_id,
+                        "reply": reply,
+                        "csrfmiddlewaretoken": "{{ csrf_token }}"
+                    };
+
+                    //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'user:用户留言回复' %}",
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 1) {
+                                if (confirm("您还没有登录,是否立即登录?")) {
+                                    location.href = "{% url 'user:用户登录' %}";
+                                }
+                            } else {
+                                alert(data.errmsg);
+                                location.href = "{% url 'user:用户留言' %}";
+                            }
+                        }
+                    })
+
+
+                }
+
+            })
+
+
+        });
+    </script>
+
+{% endblock %}
+
+

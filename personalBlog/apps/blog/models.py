@@ -31,6 +31,7 @@ class BlogArticle(BaseModel):
                                                     (False, "未发表")), default=False, verbose_name="博客状态")
     blogclassify = models.ForeignKey(to="BlogClassify", verbose_name="博客分类id")
     blogtag = models.ManyToManyField(to="BlogTag", verbose_name="博客标签")
+    blog_count = models.IntegerField(default=0, verbose_name="博客阅读量")
 
     def __str__(self):
         return self.blog_title

@@ -1,19 +1,15 @@
 {% extends "parent/parent.html" %}
 {% load static %}
 {% block content %}
-    <!--导航条-->
-    <nav class="breadcrumb">
-        <div class="container"><i class="Hui-iconfont">&#xe67f;</i> <a href="/" class="c-primary">首页</a> <span
-                class="c-gray en">&gt;</span> <span class="c-gray">{{ classify.class_name }}</span> <span
-                class="c-gray en">&gt;</span> <span
-                class="c-gray">{{ blogarticle.blog_title }}</span></div>
-    </nav>
+    <section class="container">
+        <div class="row w_main_row">
 
-    <div class="row w_main_row">
-    <div class="col-xs-offset-2 col-md-10 col-md-offset-1 mt-20">
-    <div class="panel panel-default  mb-10">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 mt-20">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 mt-20">
+               <div class="panel panel-default  mb-10">
         <div class="panel-body pt-10 pb-10">
             <h2 class="c_titile">{{ blogarticle.blog_title }}</h2>
+                <input type="hidden" id="reply-blog_id" value="{{ blogarticle.pk }}"/>
             <p class="box_c">
                 <span class="d_time">
                     发布时间：{{ blogarticle.create_time }}</span>
@@ -40,20 +36,20 @@
         </div>
     </div>
 
-    <div class="">
-        <br/>
-        <div class="tab-category">
-            <a href=""><strong>评论区</strong></a>
-        </div>
-        <br/>
-
+                <div class="panel panel-default  mb-20">
+                    <div class="tab-category">
+                        <a href=""><strong>评论区</strong></a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-body" style="margin: 0 3%;">
+                            <div class="mb-20">
 
         <!--用于评论-->
         <form action="{% url 'comments:博客评论' %}" method="post">
             {% csrf_token %}
             <div class="panel panel-default  mb-20" id="ct">
                 <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                <textarea class="comment-content" id="textarea1" name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+                <textarea class="comment-content" id="textarea1"  name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
                 <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
                 <input type="hidden" name="parent_id" value="0"/>
                 <div class="text-r mt-10">
@@ -61,68 +57,74 @@
                 </div>
             </div>
         </form>
+
         <div class="line"></div>
+                                <ul class="commentList mt-50">
+                                        {% for comment in comments %}
+                                            {% if comment.parent_id == 0 %}
+                                                <li class="item cl"><a href="#">
+                                        <i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ comment.user.head }}"></i></a>
+                                        <div class="comment-main">
+                                            <header class="comment-header">
+                                                <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.nickname }}</a>
+                                                    <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                                                          class="f-r">{{ comment.create_time }}
+                                                    </time>
+                                                </div>
+                                            </header>
+                                            <div class="comment-body">
+                                                <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
+                                                {{ comment.content|safe }}
+                                                    <!--展示回复-->
+                                                <ul class="commentList">
+                                                    {% for reply in  replies %}
+                                                        {% if reply.parent_id == comment.pk %}
 
+                                                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
+                                                        <div class="comment-main">
+                                                            <header class="comment-header">
+                                                                <div class="comment-meta">
+                                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
+                                                                    <time title="2014年8月31日 下午3:20"
+                                                                          datetime="2014-08-31T03:54:20" class="f-r">
+                                                                        {{ reply.create_time }}
+                                                                    </time>
+                                                                </div>
+                                                            </header>
+                                                            <div class="comment-body">
+                                                                <p>{{ reply.content }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
 
-        <ul class="commentList mt-50">
-            {% for comment in comments %}
-                {% if comment.parent_id == 0 %}
-                    <input type="hidden" value="{{ blogarticle.pk }}"/>
-                    <li class="item cl reply-blog_id"><a href="#">
-                    <i class="avatar size-L radius"><img alt="" src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                    <div class="comment-main">
-                    <header class="comment-header">
-                        <div class="comment-meta">
-                            <a class="comment-author" href="#">{{ comment.user.phone }}</a>
-                            <time title="" datetime="" class="f-r">{{ comment.create_time }}</time>
-                        </div>
-                    </header>
-                    <div class="comment-body">
-                     <input id="reply-parent-id" type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
-                    {{ comment.content|safe }}
+                                                        {% endif %}
+                                                    {% endfor %}
 
-                    <ul class="commentList">
-                        {% for reply in comments %}
-                            {% if reply.parent_id == comment.pk %}
-                                <li class="item cl">
-                                    <a href="#"><i class="avatar size-L radius"><img alt=""
-                                                                                     src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                                    <div class="comment-main">
-                                        <header class="comment-header">
-                                            <div class="comment-meta">
-                                                <a class="comment-author" href="#">{{ reply.user.phone }}</a>
-                                                <time class="f-r">{{ reply.create_time }}
-                                                </time>
+                                                </ul>
+                                                <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
+                                                <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
+
                                             </div>
-                                        </header>
-                                        <div class="comment-body">
-                                            <p>{{ reply.content }}</p>
                                         </div>
-                                    </div>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
-                {% endif %}
-            </div>
-            </div>
-            </li>
+                                    </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                </ul>
 
-            {% endfor %}
         <div class="text-c mb-20" id="moreBlog">
                  <nav aria-label="Page navigation">
                             {% if comments.has_previous %}
                                 <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.previous_page_number }}"
                                    aria-label="Previous">
-                                <span aria-hidden="true"><input style="width:20px" type="button" value="&laquo;"/>
+                                <span aria-hidden="true">
+                                     <input class="btn btn-success radius size-M" type="button" value="&laquo;">
                                 </span>
                                 </a>
                             {% endif %}
 
                             {% for p in comments.paginator.page_range %}
                                 <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ p }}">
-                                    <input style="width:20px" type="button" value="{{ p }}"/>
+                                <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
                                 </a>
                             {% endfor %}
 
@@ -130,28 +132,37 @@
                                 <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.next_page_number }}"
                                    aria-label="Next">
                                 <span aria-hidden="true">
-                                    <input style="width:20px" type="button" value="&raquo;"/>
+                                   <input class="btn btn-success radius size-M" type="button" value="&raquo;">
                                 </span>
                                 </a>
                             {% endif %}
-                            <span aria-hidden="true">当前:第{{ comments.number }}页</span>
+                           {% comment %} <span style="width:30px;font-size: 16px;" aria-hidden="true">当前:第{{ comments.number }}页</span>{% endcomment %}
                         </nav>
         </div>
 
-        </ul>
-
-
-        <!--用于回复-->
+         <!--用于回复-->
         <div class="comment hidden mt-20 ">
             <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-            <textarea class="textarea reply-content" style="height:100px;"> </textarea>
+
+            <textarea class="textarea reply-content" id="textarea2" style="height:100px;"> </textarea>
             <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
             <a class="cancelReply f-r mt-10 ">取消回复</a>
         </div>
-    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
 
 
+    </section>
 {% endblock %}
+
+
+
 
 {% block footer_js %}
     <script type="text/javascript" src="{% static 'plugin/jquery/1.9.1/jquery.min.js' %}"></script>
@@ -166,6 +177,7 @@
     <script type="text/javascript" src="{% static 'plugin/wangEditor/js/wangEditor.min.js' %}"></script>
 
     <script type="text/javascript">
+
         $(function () {
             wangEditor.config.printLog = false;
             var editor1 = new wangEditor('textarea1');
@@ -200,26 +212,24 @@
                 //console.debug(blog_id);
                 var comment = $(".comment-content").val();
                 console.debug(comment);
-                 //发动ajax请求
-                    $.ajax({
-                        type: "post",
-                        url: "{% url 'comments:博客评论' %}",
-                        data: data,
-                        dataType: "json",
-                        success: function (data) {
-                            //console.debug(data);
-                            if (data.code == 1) {
-                                if (confirm("您还没有登录,是否立即登录?")) {
-                                    location.href = "{% url 'user:用户登录' %}";
-                                }
-                            } else {
-                                alert(data.errmsg);
-                                location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
+                //发动ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'comments:博客评论' %}",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        //console.debug(data);
+                        if (data.code == 1) {
+                            if (confirm("您还没有登录,是否立即登录?")) {
+                                location.href = "{% url 'user:用户登录' %}";
                             }
+                        } else {
+                            alert(data.errmsg);
+                            location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
                         }
-                    })
-
-
+                    }
+                })
 
 
             });
@@ -233,17 +243,17 @@
                 // 准备发送ajax的数据
                 // 获取回复的内容
                 var reply = $(".reply-content").val();
-                console.debug(reply);
-                if (reply.length == 0){
+                //console.debug(reply);
+                if (reply.length == 0) {
                     alert("回复不能为空哦!")
 
-                }else{
+                } else {
                     //获取博客文章的id
-                    var blog_id = $(".reply-blog_id").siblings('input').val();
-                    console.debug(blog_id);
+                    var blog_id = $("#reply-blog_id").val();
+                    //console.debug(blog_id);
                     //获取评论的id
-                    var parent_id = $(".reply-parent-id").val();
-                    console.debug(parent_id);
+                    var parent_id = self.parent().prev().val();
+                    //console.debug(parent_id);
 
                     // 准备json数据
                     var data = {
@@ -279,7 +289,6 @@
 
 
         });
+        </script>
 
-
-    </script>
 {% endblock %}

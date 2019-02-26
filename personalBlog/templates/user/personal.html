@@ -10,17 +10,43 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script src="{% static 'personal/js/jquery.js' %}"></script>
     <script src="{% static 'personal/js/custom.js' %}"></script>
+    <style>
+        .head {
+    margin: 0px auto;
+    background: no-repeat center;
+    border-radius: 50%;
+    border: 0px solid #fff;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0), 0px 4px 8px 0px rgba(0, 0, 0, 0);
+    width: 95px;
+    height: 95px;
+    position: relative;
+}
+        .infor-pic {
+    margin-left: 2px;
+    float: left;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+}
+
+.infor-pic img {
+    width: 100%;
+    height: 100%;
+}
+    </style>
 </head>
 <body>
 <div class="accordion-wrap">
     <div class="accordion">
         <a href="javascript:void(0)"><i class="fa fa-user"></i>&nbsp;个人简介</a>
         <div class="nav profile">
-            <div class="photo">
-                <div class="mask-layer">
+            <div class="head">
+                <div class="infor-pic">
+                    <img src="{{ MEDIA_URL }}{{ data.head }}" />
                 </div>
             </div>
-            <h3>昵称</h3>
+            <h3>{{ data.nickname|default_if_none:"莫言" }}</h3>
+
 
         </div>
         <a href="javascript:void(0)"><i class="fa fa-envelope"></i>&nbsp;详细信息</a>
@@ -30,13 +56,36 @@
 
             </div>
             <a href="javascript:void(0)">
-                &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>19950321432</span>
+                &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ data.phone }}</span>
             </a>
             <a href="javascript:void(0)">
-                &nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>女</span>
+                &nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                	    			<i  class="infor-tele">
+                        <label class="am-radio-inline">
+                    {% if data.sex == 1 %}
+                    <input type="radio" disabled="disabled" checked="checked"  value="{{ data.sex }}" data-am-ucheck>男
+                    {% else %}
+                        <input type="radio" disabled="disabled" value="{{ data.sex }}" data-am-ucheck>男
+                    {% endif %}
+				        </label>
+                    <label class="am-radio-inline">
+                        {% if data.sex == 2 %}
+                        <input type="radio" disabled="disabled" checked="checked"  value="{{ data.sex }}" data-am-ucheck>女
+                    {% else %}
+                        <input type="radio" disabled="disabled"  value="{{ data.sex }}" data-am-ucheck>女
+                    {% endif %}
+				        </label>
+                    <label class="am-radio-inline">
+                        {% if data.sex == 3 %}
+                        <input type="radio" disabled="disabled" checked="checked"  value="{{ data.sex }}" data-am-ucheck>保密
+                    {% else %}
+                        <input type="radio" disabled="disabled" value="{{ data.sex }}" data-am-ucheck>保密
+                    {% endif %}
+				        </label>
+	    			</i>
             </a>
         </div>
- <a href="{% url 'user:用户编辑个人信息' %}">编辑个人信息</a>
+ <a href="{% url 'user:用户编辑个人信息' %}"><i style="font-size: 20px">&raquo;&nbsp;</i>编辑个人信息</a>
     </div>
 
     </div>

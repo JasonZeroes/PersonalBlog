@@ -2,7 +2,7 @@ from django.test import TestCase
 
 # Create your tests here.
 import hashlib
-print( dir(hashlib) )
+print(dir(hashlib) )
 
 a=b'123456'  # 原文&明文
 

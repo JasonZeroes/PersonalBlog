@@ -12,9 +12,9 @@
                         <ul>
                             {% for carousel in carousels %}
                                 <li>
-                                    <a href="#" target="_blank">
-                                        <img style="height: 300px"
-                                             src="{{ MEDIA_URL }}{{ carousel.img_url }}">
+                                    <a href="{% url 'blog:博客详情' %}?blog_id={{ carousel.blogarticle.pk }}"
+                                       target="_blank">
+                                        <img style="height: 250px" src="{{ MEDIA_URL }}{{ carousel.img_url }}">
                                     </a>
                                 </li>
                             {% endfor %}
@@ -58,9 +58,14 @@
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量"></i> 13° </p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span
-                                            class="cy_cmt_count">0</span></p>
+                                                                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
+                                    </i>{{ blogarticle.blog_count }}
+                                    </p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
+                                    </i>
+                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
+                                        </span>
+                                    </p>
                                 </div>
                                 <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
                             </li>
@@ -79,44 +84,47 @@
                         <a href="/article?t=1">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span
-                                            id="sourceId::105" class="cy_cmt_count">20</span></p>
+                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
+                                    </i>{{ blogarticle.blog_count }}
+                                    </p>
+                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
+                                    </i>
+                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
+                                        </span>
+                                    </p>
                                 </div>
                                 <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
                             </li>
-                        {% endif %}
 
+                        {% endif %}
                     {% endfor %}
 
-                    <div class="btn  radius btn-block" class="text-c mb-20" id="moreBlog"></div>
-
-                        <nav aria-label="Page navigation">
-                            {% if blogarticles.has_previous %}
-                                <a href="{% url 'blog:博客首页' %}?page={{ blogarticles.previous_page_number }}"
-                                   aria-label="Previous">
+{#                    分页#}
+                    <nav aria-label="Page navigation">
+                        {% if blogarticles.has_previous %}
+                            <a href="{% url 'blog:博客首页' %}?page={{ blogarticles.previous_page_number }}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">
-                                    <input style="width:30px;font-size: 16px" type="button" value="&laquo;"/>
+                                     <input class="btn btn-success radius size-M" type="button" value="&laquo;">
                                 </span>
-                                </a>
-                            {% endif %}
+                            </a>
+                        {% endif %}
 
-                            {% for p in blogarticles.paginator.page_range %}
-                                <a href="{% url 'blog:博客首页' %}?page={{ p }}">
-                                    <input style="width:30px;font-size: 16px" type="button" value="{{ p }}"/>
-                                </a>
-                            {% endfor %}
+                        {% for p in blogarticles.paginator.page_range %}
+                            <a href="{% url 'blog:博客首页' %}?page={{ p }}">
+                                <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
+                            </a>
+                        {% endfor %}
 
-                            {% if blogarticles.has_next %}
-                                <a href="{% url 'blog:博客首页' %}?page={{ blogarticles.next_page_number }}"
-                                   aria-label="Next">
+                        {% if blogarticles.has_next %}
+                            <a href="{% url 'blog:博客首页' %}?page={{ blogarticles.next_page_number }}"
+                               aria-label="Next">
                                 <span aria-hidden="true">
-                                    <input  style="width:30px;font-size: 16px" type="button" value="&raquo;"/>
+                                    <input class="btn btn-success radius size-M" type="button" value="&raquo;">
                                 </span>
-                                </a>
-                            {% endif %}
-                            <span style="font-size: 16px" aria-hidden="true">当前:第{{ blogarticles.number }}页</span>
-                        </nav>
+                            </a>
+                        {% endif %}
+                    </nav>
                 </ul>
             </div>
         </div>
@@ -130,11 +138,11 @@
                     <i class="Hui-iconfont" style="float: left;">&#xe62f;&nbsp;</i>
                     <div class="slideTxtBox">
                         <form action="{% url 'search:haystack_search' %}" method="get">
-                        <div class="bd">
-                            <input type="text" name="q" class="cate-input" style="width: 200px;height: 20px"  placeholder="请输入您要的搜索的博客关键词"/>
-                            <input type="submit" value="搜索" class="cate-btn"/>
-                        </div>
-                            </form>
+                            <div class="bd">
+                                <input type="text" name="q" class="scrollHeight" style="width: 170px;height: 25px" placeholder="请输入您要的搜索的博客关键词"/>
+                                <input type="submit" value="搜索" class="btn btn-success radius size-S"/>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -157,19 +165,7 @@
 
 
             <!--热门推荐-->
-            <div class="bg-fff box-shadow radius mb-20">
-                <div class="tab-category">
-                    <a href=""><strong>热门推荐</strong></a>
-                </div>
-                <div class="tab-category-item">
-                    <ul class="index_recd">
-                        <li>
-                            <a href="#">阻止a标签href默认跳转事件</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
 
             <!--点击排行-->
             <div class="bg-fff box-shadow radius mb-20">
@@ -178,9 +174,14 @@
                 </div>
                 <div class="tab-category-item">
                     <ul class="index_recd clickTop">
+                        {% for dat in data %}
                         <li>
-                            <a href="#">AJAX的刷新和前进后退问题解决</a>
-                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276° </p>
+                                <a href="{% url "blog:博客详情" %}?blog_id={{ dat.pk }}">{{ dat.blog_title}}</a>
+                                <p class="hits"><i class="Hui-iconfont" title="评论量">&#xe6c1;
+                                </i>{{ dat.blog_count }}
+                                </p>
+                                <br/>
+                            {% endfor %}
                         </li>
                     </ul>
                 </div>
@@ -193,30 +194,11 @@
                 </div>
                 <div class="tab-category-item">
                     <div class="tags">
-                        <a href="http://www.h-ui.net/">H-ui前端框架</a>
-                        <a href="http://www.h-ui.net/websafecolors.shtml">Web安全色</a>
-                        <a href="http://www.h-ui.net/Hui-4.4-Unslider.shtml">jQuery轮播插件</a> <a
-                            href="http://idc.likejianzhan.com/vhost/korea_hosting.php">韩国云虚拟主机</a>
-                        <a href="http://www.h-ui.net/bug.shtml">IEbug</a> <a href="http://www.h-ui.net/site.shtml">IT网址导航</a>
-                        <a href="http://www.h-ui.net/icon/index.shtml">网站常用小图标</a>
-                        <a href="http://www.h-ui.net/tools/jsformat.shtml">web工具箱</a>
-                        <a href="http://www.h-ui.net/bg/index.shtml">网站常用背景素材</a>
-                        <a href="http://www.h-ui.net/yuedu/chm.shtml">H-ui阅读</a> <a
-                            href="http://www.h-ui.net/easydialog-v2.0/index.html">弹出层插件</a> <a
-                            href="http://www.h-ui.net/SuperSlide2.1/demo.html">SuperSlide插件</a>
-                        <a href="http://www.h-ui.net/TouchSlide1.1/demo.html">TouchSlide</a>
+                        {% for tag in tags %}
+                            {% csrf_token %}
+                            <a class="tag" href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag }}</a>
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
-
-
-            <!--图片-->
-            <div class="bg-fff box-shadow radius mb-20">
-                <div class="tab-category">
-                    <a href=""><strong>扫我关注</strong></a>
-                </div>
-                <div class="tab-category-item">
-                    <img data-original="temp/gg.jpg" class="img-responsive lazyload" alt="响应式图片">
                 </div>
             </div>
 
@@ -232,48 +214,6 @@
                     <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">腾讯</a></span>
                     <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">慕课网</a></span>
                     <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">h-ui</a></span>
-                </div>
-            </div>
-
-
-            <!--最近访客-->
-            <div class="bg-fff box-shadow radius mb-20">
-                <div class="tab-category">
-                    <a href=""><strong>最近访客</strong></a>
-                </div>
-                <div class="panel-body">
-                    <ul class="recent">
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                        <div class="item"><img
-                                src="http://q.qlogo.cn/qqapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/40" alt="">
-                        </div>
-                    </ul>
                 </div>
             </div>
 
@@ -360,6 +300,26 @@
 
             $("img.lazyload").lazyload({failurelimit: 3});
 
+            {% comment %} $(".tag").on("click", function () {
+                 //console.debug(1111);
+                 var self = $(this);
+                 //准备发送ajax的数据
+                 var data = self.parent("form").serialize();
+                 //发起ajax
+                 $.ajax({
+                     type: "post",
+                     url: "{% url 'blog:标签搜索分类' %}",
+                     data: data,
+                     dataType: "json",
+                     success:function () {
+                         if (data.code == 0){
+                             location.href = "{% url 'blog:标签搜索分类' %}";
+                         }
+
+                     }
+                 })
+             })
+ {% endcomment %}
 
         });
     </script>

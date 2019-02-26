@@ -8,6 +8,9 @@ from personalBlog.settings import SECRET_KEY
 
 
 # 创建一个函数, 实现对粉丝用户提交的密码进行加密处理
+from user.models import UserModel
+
+
 def set_password(password):
     # 利用sha-256进行加密, 为进一步提高密码的安全性, 需要进行加盐处理
     # 将密码字符创循环10000次
@@ -53,5 +56,17 @@ def check_login(func):
         else:
             # 调用原函数
             return func(request, *args, **kwargs)
+
     # 返回新函数名
     return verify_ligin
+
+
+# 创建一盒函数, 实现对父模板中用户头像的显示
+def showhead(request):
+    # 获取用户信息
+    try:
+        user_id = request.session.get("id")
+        user = UserModel.objects.get(pk=user_id)
+    except:
+        user = None
+    return user

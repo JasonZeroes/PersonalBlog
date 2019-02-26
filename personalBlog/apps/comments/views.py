@@ -25,10 +25,6 @@ class Comments(VerifyLogin):
 
         # 判断评论id是否存在
         parent_id = int(data.get("parent_id")[0])
-        # try:
-        #     CommentsModel.objects.get(pk=parent_id)
-        # except CommentsModel.DoesNotExist:
-        #     return JsonResponse(json_msg(3, "回复的评论不存在!"))
 
         # 主要是对评论内容进行判断合法性
         content = data.get("content")
