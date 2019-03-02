@@ -67,9 +67,17 @@
                     <li class="userInfo dropDown dropDown_hover">
                         {% if user %}
                         <a href="{% url 'user:用户个人中心' %}" target="_blank">
-                            <img class="avatar size-S" src="{{ MEDIA_URL }}{{ user.head }}"></a>&emsp;<a href="#"><input class="btn btn-secondary-outline radius size-S" type="button" value="退出登录"/></a>
+                            <img class="avatar size-S" src="{{ MEDIA_URL }}{{ user.head }}">
+                        </a>&emsp;<a href="#">
+                        <input class="btn btn-secondary-outline radius size-S" id="qwer" type="button" value="退出登录"/>
+                        </a>
                             {% else %}
-                            <a href="{% url 'user:用户登录' %}"><input class="btn btn-secondary-outline radius size-S" type="button" value="未登录"/></a>
+                        <a href="{% url 'user:用户登录' %}">
+                        <input class="btn btn-secondary-outline radius size-S" type="button" value="未登录"/>
+                        </a>
+                        <a href="{% url 'user:用户注册' %}">
+                        <input class="btn btn-secondary-outline radius size-S" type="button" value="注册"/>
+                        </a>
                         {% endif %}
                     </li>
                 </ul>
@@ -414,6 +422,7 @@
 
     <script>
         $(function () {
+{% comment %}
 //幻灯片
             jQuery(".slider_main .slider").slide({
                 mainCell: ".bd ul",
@@ -443,8 +452,13 @@
             });
 
             $("img.lazyload").lazyload({failurelimit: 3});
-        });
 
+
+
+
+
+{% endcomment %}
+        });
     </script>
 {% endblock %}
 

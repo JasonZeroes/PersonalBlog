@@ -3,13 +3,21 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
         修改个人信息
     </title>
     <link rel="stylesheet" href="{% static 'personal/style.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'personcenter/dist/css/bootstrap.css' %}" type="text/css"/>
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <script src="{% static 'personal/js/jquery.js' %}"></script>
+    <script src="{% static 'personcenter/dist/js/jquery.js' %}"></script>
     <script src="{% static 'personal/js/custom.js' %}"></script>
+    <script src="{% static 'personcenter/dist/js/bootstrap.js' %}"></script>
     <style>
         .head {
             margin: 0px auto;
@@ -35,20 +43,6 @@
             height: 100%;
         }
 
-        .btn-upload {
-            position: relative;
-            display: inline-block;
-            height: 36px;
-            *display: inline;
-            overflow: hidden;
-            vertical-align: middle;
-            cursor: pointer
-        }
-
-        .upload-url {
-            cursor: pointer
-        }
-
         .input-file {
             position: absolute;
             right: 0;
@@ -61,13 +55,6 @@
             filter: alpha(opacity=0)
         }
 
-        .btn-upload .input-text {
-            width: auto
-        }
-
-        .form-group .upload-btn {
-            margin-left: -1px
-        }
     </style>
 </head>
 <body>
@@ -82,19 +69,12 @@
                 <div class="head">
                     <div class="infor-pic">
                          <img src="{{ MEDIA_URL }}{{ data.head }}" />
-                    {% comment %}<input class="input-text radius" name="head" type="file"  value="上传头像"/>{% endcomment %}
-                        <span class="btn-upload">
-                            <a href="javascript:void();" class="btn btn-primary radius btn-upload">
-                                <i class="Hui-iconfont"></i>上传头像</a>
-  <input type="file" multiple name="file_0" class="input-file">
-</span>
-
+                            <input type="file" name="head"  class=""/>
                     </div>
                 </div>
-                <br>
-                <br>
-                <h3><input class="input-text radius size-L" name="nickname" value="{{ data.nickname|default_if_none:"莫言" }}"/>
-                </h3>
+                <br/>
+                <input class="form-control" style="width: 150px" name="nickname" value="{{ data.nickname|default_if_none:"莫言" }}"/>
+
 
             </div>
 
@@ -105,9 +85,7 @@
 
                 </div>
                 <a href="javascript:void(0)">
-                    &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><input class="input-text radius"
-                                                                                           name="phone"
-                                                                                           value="{{ data.phone }}"/></span>
+                    &nbsp;电话号码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><input class="form-control" id="exampleInputPassword3" name="phone" value="{{ data.phone }}"/></span>
                 </a>
                 <a href="javascript:void(0)">
                     &nbsp;性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -138,7 +116,11 @@
                 </a>
             </div>
 
-            <i style="font-size: 20px">&raquo;&nbsp;</i><input type="submit" value="确认修改" class="btn btn-success radius size-S"/>
+{% comment %}            <i style="font-size: 20px"></i><input type="submit" value="确认修改" class="btn btn-link glyphicon glyphicon-floppy-disk"/>{% endcomment %}
+
+        <button type="submit" class="btn btn-link">
+  &nbsp;<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;确认修改
+</button>
         </form>
     </div>
 

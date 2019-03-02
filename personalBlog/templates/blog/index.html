@@ -100,6 +100,7 @@
                     {% endfor %}
 
 {#                    分页#}
+                {% if blogarticles.paginator.page_range|length >= 2 %}
                     <nav aria-label="Page navigation">
                         {% if blogarticles.has_previous %}
                             <a href="{% url 'blog:博客首页' %}?page={{ blogarticles.previous_page_number }}"
@@ -125,6 +126,8 @@
                             </a>
                         {% endif %}
                     </nav>
+                {% endif %}
+
                 </ul>
             </div>
         </div>
@@ -247,20 +250,6 @@
 {% endblock %}
 
 {% block footer_js %}
-    {% comment %}
-
-    <script>
-        $(function () {
-            //实现文章的积分购买
-            $("img.lazyload").on("click", function () {
-                console.debug(111);
-            })
-        })
-    </script>
-{% endcomment %}
-
-
-
 
     <script> $(function () {
         $(window).on("scroll", backToTopFun);
@@ -300,26 +289,32 @@
 
             $("img.lazyload").lazyload({failurelimit: 3});
 
-            {% comment %} $(".tag").on("click", function () {
-                 //console.debug(1111);
-                 var self = $(this);
-                 //准备发送ajax的数据
-                 var data = self.parent("form").serialize();
-                 //发起ajax
-                 $.ajax({
-                     type: "post",
-                     url: "{% url 'blog:标签搜索分类' %}",
-                     data: data,
-                     dataType: "json",
-                     success:function () {
-                         if (data.code == 0){
-                             location.href = "{% url 'blog:标签搜索分类' %}";
-                         }
 
-                     }
-                 })
-             })
- {% endcomment %}
+
+            // 退出登录
+            $("#qwer").on("click", function () {
+                //console.debug(1111)
+                    var datas = {
+                        "csrfmiddlewaretoken": "{{ csrf_token }}"
+                    };
+                    //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'user:用户退出登录' %}",
+                        data: datas,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 0) {
+                                location.href = "{% url 'blog:博客首页' %}";
+                            } else {
+                                alert(data.errmsg);
+                            }
+                        }
+                    })
+
+
+            })
 
         });
     </script>

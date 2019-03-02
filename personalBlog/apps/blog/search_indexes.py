@@ -1,9 +1,9 @@
 # 导入全文检索框架索引类
 from haystack import indexes
+from haystack.generic_views import SearchView
 from requests import request
 
 from blog.models import BlogArticle
-from user.helper import showhead
 
 
 class BlogArticleIndex(indexes.SearchIndex, indexes.Indexable):
@@ -17,9 +17,4 @@ class BlogArticleIndex(indexes.SearchIndex, indexes.Indexable):
     # 设置检索需要使用的查询集
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        context = {
-            "user": showhead(request)
-        }
-        data = self.get_model().objects.filter(is_delete=False)
-
         return self.get_model().objects.filter(is_delete=False)

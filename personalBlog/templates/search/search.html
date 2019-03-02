@@ -85,8 +85,8 @@
 
                     {% endfor %}
 
-
-                    <nav aria-label="Page navigation">
+                {% if page.paginator.page_range|length >= 2 %}
+                     <nav aria-label="Page navigation">
                         {% if page.has_previous %}
                             <a href="{% url 'search:haystack_search' %}?q={{ query }}&page={{ page.previous_page_number }}"
                                aria-label="Previous">
@@ -112,6 +112,8 @@
                         {% endif %}
 
                     </nav>
+                {% endif %}
+
                 </ul>
             </div>
         </div>

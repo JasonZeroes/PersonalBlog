@@ -4,15 +4,19 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 
 from django.views import View
+
 from blog.models import Carousel, BlogArticle, BlogClassify, BlogTag
 
 from comments.models import CommentsModel
 
-# 创建个人博客的主页
-from user.helper import showhead
 from user.models import UserModel
 
+from django.shortcuts import render
 
+from user.helper import showhead
+
+
+# 创建个人博客的主页
 class BlogIndexView(View):
     # 当用户以GET的方式请求用户首页时
     def get(self, request):
@@ -20,7 +24,7 @@ class BlogIndexView(View):
         carousels = Carousel.objects.filter(show_status=True)
 
         # 2.查询博客文章的标题和详情
-        blogarticles = BlogArticle.objects.filter(is_delete=False, blog_is_publish=True).order_by("-create_time")
+        blogarticles = BlogArticle.objects.filter(is_delete=False, blog_is_publish=True).order_by("-create_time")[:10]
         # 查询用户的头像
         try:
             user_id = request.session.get("id")

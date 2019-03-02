@@ -300,6 +300,33 @@
             $("img.lazyload").lazyload({failurelimit: 3});
 
 
+
+            // 退出登录
+            $("#qwer").on("click", function () {
+                //console.debug(1111)
+                    var datas = {
+                        "csrfmiddlewaretoken": "{{ csrf_token }}"
+                    };
+                    //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'user:用户退出登录' %}",
+                        data: datas,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 0) {
+                                location.href = "{% url 'blog:博客首页' %}";
+                            } else {
+                                alert(data.errmsg);
+                            }
+                        }
+                    })
+
+
+            })
+
+
         });
     </script>
 {% endblock %}

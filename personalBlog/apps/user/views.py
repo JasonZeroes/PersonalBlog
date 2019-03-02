@@ -150,7 +150,7 @@ class EditPersoninfo(VerifyLogin):
 
 
 # 创建一个用户留言板
-class Board(VerifyLogin):
+class Board(View):
     # 展示留言板
     def get(self, request):
         # 查询所有的留言
@@ -279,6 +279,12 @@ class Revert(VerifyLogin):
         else:
             return JsonResponse(json_msg(4, "回复字符少于5个!"))
 
-
-
         # TODO  用户个人中心 搜索页的头像问题, 退出登录
+
+
+# 创建一个类, 实现对用户个人登录信息的删除
+class QuitLogin(VerifyLogin):
+    def post(self, request):
+        # 清除session中的登录信息
+        request.session.flush()
+        return JsonResponse(json_msg(0, "清除登录成功!"))

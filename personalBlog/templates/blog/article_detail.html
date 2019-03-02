@@ -59,85 +59,86 @@
         </form>
 
         <div class="line"></div>
-                                <ul class="commentList mt-50">
-                                        {% for comment in comments %}
-                                            {% if comment.parent_id == 0 %}
-                                                <li class="item cl"><a href="#">
-                                        <i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ comment.user.head }}"></i></a>
-                                        <div class="comment-main">
-                                            <header class="comment-header">
-                                                <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.nickname }}</a>
-                                                    <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
-                                                          class="f-r">{{ comment.create_time }}
-                                                    </time>
-                                                </div>
-                                            </header>
-                                            <div class="comment-body">
-                                                <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
-                                                {{ comment.content|safe }}
-                                                    <!--展示回复-->
-                                                <ul class="commentList">
-                                                    {% for reply in  replies %}
-                                                        {% if reply.parent_id == comment.pk %}
+            <ul class="commentList mt-50">
+                {% for comment in comments %}
+                        {% if comment.parent_id == 0 %}
+                            <li class="item cl"><a href="#">
+                    <i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ comment.user.head }}"></i></a>
+                    <div class="comment-main">
+                        <header class="comment-header">
+                            <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.nickname }}</a>
+                                <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                                      class="f-r">{{ comment.create_time }}
+                                </time>
+                            </div>
+                        </header>
+                        <div class="comment-body">
+                            <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
+                            {{ comment.content|safe }}
+                                <!--展示回复-->
+                            <ul class="commentList">
+                                {% for reply in  replies %}
+                                    {% if reply.parent_id == comment.pk %}
 
-                                                            <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
-                                                        <div class="comment-main">
-                                                            <header class="comment-header">
-                                                                <div class="comment-meta">
-                                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
-                                                                    <time title="2014年8月31日 下午3:20"
-                                                                          datetime="2014-08-31T03:54:20" class="f-r">
-                                                                        {{ reply.create_time }}
-                                                                    </time>
-                                                                </div>
-                                                            </header>
-                                                            <div class="comment-body">
-                                                                <p>{{ reply.content }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                        {% endif %}
-                                                    {% endfor %}
-
-                                                </ul>
-                                                <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
-                                                <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
-
+                                        <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
+                                    <div class="comment-main">
+                                        <header class="comment-header">
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
+                                                <time title="2014年8月31日 下午3:20"
+                                                      datetime="2014-08-31T03:54:20" class="f-r">
+                                                    {{ reply.create_time }}
+                                                </time>
                                             </div>
+                                        </header>
+                                        <div class="comment-body">
+                                            <p>{{ reply.content }}</p>
                                         </div>
-                                    </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                </ul>
+                                    </div>
+                                </li>
+
+                                    {% endif %}
+                                {% endfor %}
+
+                            </ul>
+                            <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
+                            <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
+
+                        </div>
+                    </div>
+                </li>
+                        {% endif %}
+                    {% endfor %}
+            </ul>
 
         <div class="text-c mb-20" id="moreBlog">
-                 <nav aria-label="Page navigation">
-                            {% if comments.has_previous %}
-                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.previous_page_number }}"
-                                   aria-label="Previous">
-                                <span aria-hidden="true">
-                                     <input class="btn btn-success radius size-M" type="button" value="&laquo;">
-                                </span>
-                                </a>
-                            {% endif %}
+        {% if comments.paginator.page_range|length >= 2 %}
+                <nav aria-label="Page navigation">
+                {% if comments.has_previous %}
+                    <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">
+                     <input class="btn btn-success radius size-M" type="button" value="&laquo;">
+                    </span>
+                        </a>
+                    {% endif %}
 
-                            {% for p in comments.paginator.page_range %}
-                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ p }}">
-                                <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
-                                </a>
-                            {% endfor %}
+                    {% for p in comments.paginator.page_range %}
+                        <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ p }}">
+                    <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
+                    </a>
+                    {% endfor %}
 
-                            {% if blogarticles.has_next %}
-                                <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.next_page_number }}"
-                                   aria-label="Next">
-                                <span aria-hidden="true">
-                                   <input class="btn btn-success radius size-M" type="button" value="&raquo;">
+                    {% if blogarticles.has_next %}
+                            <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">
+                            <input class="btn btn-success radius size-M" type="button" value="&raquo;">
                                 </span>
                                 </a>
                             {% endif %}
                            {% comment %} <span style="width:30px;font-size: 16px;" aria-hidden="true">当前:第{{ comments.number }}页</span>{% endcomment %}
                         </nav>
+        {% endif %}
+
         </div>
 
          <!--用于回复-->
@@ -284,6 +285,30 @@
 
 
                 }
+
+            });
+                // 退出登录
+                $("#qwer").on("click", function () {
+                //console.debug(1111)
+                    var datas = {
+                        "csrfmiddlewaretoken": "{{ csrf_token }}"
+                    };
+                    //发动ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'user:用户退出登录' %}",
+                        data: datas,
+                        dataType: "json",
+                        success: function (data) {
+                            //console.debug(data);
+                            if (data.code == 0) {
+                                location.href = "{% url 'blog:博客首页' %}";
+                            } else {
+                                alert(data.errmsg);
+                            }
+                        }
+                    })
+
 
             })
 
