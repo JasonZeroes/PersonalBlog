@@ -10,11 +10,11 @@
 
 
 
-<section class="container">
-    <div class="col-xs-12 col-md-10 col-md-offset-1 mt-20">
+    <section class="container">
+        <div class="col-xs-12 col-md-10 col-md-offset-1 mt-20">
 
 
-    <div class="bg-fff box-shadow radius mb-20 ">
+            <div class="bg-fff box-shadow radius mb-20 ">
                 <div class="tab-category">
                     <a href=""><strong>博主心情</strong></a>
                 </div>
@@ -28,157 +28,158 @@
                         &emsp;&emsp;&emsp;
                         &emsp;&emsp;&emsp;
                         &emsp;&emsp;
-                            <a class="tag" href="">车</a>
-                            <a class="tag" href="">马</a>
-                            <a class="tag" href="">很</a>
-                            <a class="tag" href="">慢</a>
-                            &emsp;&emsp;
-                            <a class="tag" href="">书</a>
-                            <a class="tag" href="">信</a>
-                            <a class="tag" href="">很</a>
-                            <a class="tag" href="">远</a>
-                            &emsp;&emsp;&emsp;
-                            <a class="tag" href="">一</a>
-                            <a class="tag" href="">生</a>
-                            <a class="tag" href="">只</a>
-                            <a class="tag" href="">够</a>
-                            <a class="tag" href="">爱</a>
-                            <a class="tag" href="">一</a>
-                            <a class="tag" href="">人</a>
+                        <a class="tag" href="">车</a>
+                        <a class="tag" href="">马</a>
+                        <a class="tag" href="">很</a>
+                        <a class="tag" href="">慢</a>
+                        &emsp;&emsp;
+                        <a class="tag" href="">书</a>
+                        <a class="tag" href="">信</a>
+                        <a class="tag" href="">很</a>
+                        <a class="tag" href="">远</a>
+                        &emsp;&emsp;&emsp;
+                        <a class="tag" href="">一</a>
+                        <a class="tag" href="">生</a>
+                        <a class="tag" href="">只</a>
+                        <a class="tag" href="">够</a>
+                        <a class="tag" href="">爱</a>
+                        <a class="tag" href="">一</a>
+                        <a class="tag" href="">人</a>
                     </div>
                 </div>
             </div>
 
 
-        <div class="panel panel-default  mb-20">
-            <div class="tab-category">
-                <a href=""><strong>留言区</strong></a>
+            <div class="panel panel-default  mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>留言区</strong></a>
                 </div>
                 <div class="panel-body">
                     <div class="panel-body" style="margin: 0 3%;">
                         <div class="mb-20">
 
                             <!--用于评论-->
-<form action="{% url 'user:用户留言' %}" method="post">
-    {% csrf_token %}
-    <div class="panel panel-default  mb-20" id="ct">
-        <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-        <textarea class="board-content" id="textarea1" name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
-        <input type="hidden" name="parent_id" value="0"/>
-        <div class="text-r mt-10">
-            <button type="button" class="btn btn-primary radius board"> 发表留言</button>
-        </div>
-    </div>
-</form>
+                            <form action="{% url 'user:用户留言' %}" method="post">
+                                {% csrf_token %}
+                                <div class="panel panel-default  mb-20" id="ct">
+                                    <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                                    <textarea class="board-content" id="textarea1" name="content" style="height:200px;"
+                                              placeholder="看完不留一发？"> </textarea>
+                                    <input type="hidden" name="parent_id" value="0"/>
+                                    <div class="text-r mt-10">
+                                        <button type="button" class="btn btn-primary radius board"> 发表留言</button>
+                                    </div>
+                                </div>
+                            </form>
 
-<div class="line"></div>
-<ul class="commentList mt-50">
-    {% for board in boards %}
-        {% if board.parent_id == 0 %}
-            <li class="item cl"><a href="#">
-                <i class="avatar size-L radius"><img alt="" src="
+                            <div class="line"></div>
+                            <ul class="commentList mt-50">
+                                {% for board in boards %}
+                                    {% if board.parent_id == 0 %}
+                                        <li class="item cl"><a href="#">
+                                            <i class="avatar size-L radius"><img alt="" src="
                         {{ MEDIA_URL }}{{ board.user.head }}"></i></a>
-                <div class="comment-main">
-                    <header class="comment-header">
-                        <div class="comment-meta"><a class="comment-author"
-                                                     href="#">{{ board.user.nickname }}</a>
-                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
-                                  class="f-r">{{ board.create_time }}
-                            </time>
-                        </div>
-                    </header>
-                    <div class="comment-body">
-                        <input type="hidden" class="reply-parent-id"
-                               value="{{ comment.pk }}"/>
-                        {{ board.content|safe }}
-                        <!--展示回复-->
-                        <ul class="commentList">
-                            {% for reply in  replies %}
-                                {% if reply.parent_id == board.pk %}
-                                    <li class="item cl"><a href="#"><i
-                                            class="avatar size-L radius"><img alt="" src="
+                                            <div class="comment-main">
+                                                <header class="comment-header">
+                                                    <div class="comment-meta"><a class="comment-author"
+                                                                                 href="#">{{ board.user.nickname }}</a>
+                                                        <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                                                              class="f-r">{{ board.create_time }}
+                                                        </time>
+                                                    </div>
+                                                </header>
+                                                <div class="comment-body">
+                                                    <input type="hidden" class="reply-parent-id"
+                                                           value="{{ comment.pk }}"/>
+                                                    {{ board.content|safe }}
+                                                    <!--展示回复-->
+                                                    <ul class="commentList">
+                                                        {% for reply in  replies %}
+                                                            {% if reply.parent_id == board.pk %}
+                                                                <li class="item cl"><a href="#"><i
+                                                                        class="avatar size-L radius"><img alt="" src="
                                             {{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
-                                        <div class="comment-main">
-                                            <header class="comment-header">
-                                                <div class="comment-meta">
-                                                    <a class="comment-author"
-                                                       href="#">{{ reply.user.nickname }}</a>
-                                                    <time title="2014年8月31日 下午3:20"
-                                                          datetime="2014-08-31T03:54:20"
-                                                          class="f-r">
-                                                        {{ reply.create_time }}
-                                                    </time>
+                                                                    <div class="comment-main">
+                                                                        <header class="comment-header">
+                                                                            <div class="comment-meta">
+                                                                                <a class="comment-author"
+                                                                                   href="#">{{ reply.user.nickname }}</a>
+                                                                                <time title="2014年8月31日 下午3:20"
+                                                                                      datetime="2014-08-31T03:54:20"
+                                                                                      class="f-r">
+                                                                                    {{ reply.create_time }}
+                                                                                </time>
+                                                                            </div>
+                                                                        </header>
+                                                                        <div class="comment-body">
+                                                                            <p>{{ reply.content }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    </ul>
+                                                    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复
+                                                    </button>
+                                                    <input type="hidden" class="reply-parent-id"
+                                                           value="{{ board.pk }}"/>
+
                                                 </div>
-                                            </header>
-                                            <div class="comment-body">
-                                                <p>{{ reply.content }}</p>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
 
-                                {% endif %}
-                            {% endfor %}
-
-                        </ul>
-                        <button class="hf f-r btn btn-default size-S mt-10" name="2">回复
-                        </button>
-                        <input type="hidden" class="reply-parent-id"
-                               value="{{ board.pk }}"/>
-
-                    </div>
-                </div>
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
-
-{% if boards %}
- <div class="mt-20 text-c">
-    <nav aria-label="Page navigation">
-        {% if boards.has_previous %}
-            <a href="{% url 'user:用户留言' %}?page={{ boards.previous_page_number }}"
-               aria-label="Previous">
+                            {% if boards %}
+                                <div class="mt-20 text-c">
+                                    <nav aria-label="Page navigation">
+                                        {% if boards.has_previous %}
+                                            <a href="{% url 'user:用户留言' %}?page={{ boards.previous_page_number }}"
+                                               aria-label="Previous">
     <span aria-hidden="true">
         <input class="btn btn-success radius size-M" type="button" value="&laquo;">
     </span>
-            </a>
-        {% endif %}
+                                            </a>
+                                        {% endif %}
 
-        {% for p in boards.paginator.page_range %}
-            <a href="{% url 'user:用户留言' %}?page={{ p }}">
-                <input class="btn btn-secondary radius size-M" type="button"
-                       value="{{ p }}">
-            </a>
-        {% endfor %}
+                                        {% for p in boards.paginator.page_range %}
+                                            <a href="{% url 'user:用户留言' %}?page={{ p }}">
+                                                <input class="btn btn-secondary radius size-M" type="button"
+                                                       value="{{ p }}">
+                                            </a>
+                                        {% endfor %}
 
-        {% if blogarticles.has_next %}
-            <a href="{% url 'user:用户留言' %}?page={{ boards.next_page_number }}"
-               aria-label="Next">
+                                        {% if blogarticles.has_next %}
+                                            <a href="{% url 'user:用户留言' %}?page={{ boards.next_page_number }}"
+                                               aria-label="Next">
     <span aria-hidden="true">
          <input class="btn btn-success radius size-M" type="button" value="&raquo;">
     </span>
-            </a>
-        {% endif %}
-    </nav>
-</div>
-{% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </nav>
+                                </div>
+                            {% endif %}
 
 
-    <!--用于回复-->
-    <div class="comment hidden mt-20 ">
-        <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-        <textarea class="textarea reply-content" id="textarea2"
-                  style="height:100px;"> </textarea>
-        <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
-        <a class="cancelReply f-r mt-10 ">取消回复</a>
-    </div>
-</div>
-</div>
-</div>
-</div>
+                            <!--用于回复-->
+                            <div class="comment hidden mt-20 ">
+                                <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                                <textarea class="textarea reply-content" id="textarea2"
+                                          style="height:100px;"> </textarea>
+                                <button type="button" class="btn btn-primary radius mt-10 reply">回复</button>
+                                <a class="cancelReply f-r mt-10 ">取消回复</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-</div>
-</section>
+        </div>
+    </section>
 {% endblock %}
 
 
@@ -301,24 +302,24 @@
             // 退出登录
             $("#qwer").on("click", function () {
                 //console.debug(1111)
-                    var datas = {
-                        "csrfmiddlewaretoken": "{{ csrf_token }}"
-                    };
-                    //发动ajax请求
-                    $.ajax({
-                        type: "post",
-                        url: "{% url 'user:用户退出登录' %}",
-                        data: datas,
-                        dataType: "json",
-                        success: function (data) {
-                            //console.debug(data);
-                            if (data.code == 0) {
-                                location.href = "{% url 'blog:博客首页' %}";
-                            } else {
-                                alert(data.errmsg);
-                            }
+                var datas = {
+                    "csrfmiddlewaretoken": "{{ csrf_token }}"
+                };
+                //发动ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'user:用户退出登录' %}",
+                    data: datas,
+                    dataType: "json",
+                    success: function (data) {
+                        //console.debug(data);
+                        if (data.code == 0) {
+                            location.href = "{% url 'blog:博客首页' %}";
+                        } else {
+                            alert(data.errmsg);
                         }
-                    })
+                    }
+                })
 
 
             })

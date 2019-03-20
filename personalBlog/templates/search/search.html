@@ -2,6 +2,52 @@
 {% load static %}
 {% load highlight %}
 
+{% block header %}
+    <header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container cl">
+            <a class="navbar-logo hidden-xs" href="{% url 'blog:博客首页' %}">
+                <img class="logo" src="{% static 'img/logo01.png' %}" alt="Jason博客"/>
+            </a>
+            <a class="logo navbar-logo-m visible-xs" href="">Jason博客</a>
+            <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);"
+               onclick="showSide();">&#xe667;</a>
+            <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
+                <ul class="cl">
+                    <li><a href="{% url 'blog:博客分类列表' 1 %}" data-hover="代码天地">代码天地</a></li>
+                    <li><a href="{% url 'blog:博客分类列表' 2 %}" data-hover="机器学习">机器学习</a></li>
+                    <li><a href="{% url 'blog:博客分类列表' 4 %}" data-hover="数据分析">数据分析</a></li>
+                    <li><a href="{% url 'blog:博客分类列表' 5 %}" data-hover="闲情逸致">闲情逸致</a></li>
+                    <li><a href="{% url 'user:用户留言' %}" data-hover="留言足迹">留言足迹</a></li>
+
+
+                </ul>
+            </nav>
+             {% comment %}<nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
+                <ul class="cl">
+                    <li class="userInfo dropDown dropDown_hover">
+                        {% if user %}
+                        <a href="{% url 'user:用户个人中心' %}" target="_blank">
+                            <img class="avatar size-S" src="{{ MEDIA_URL }}{{ user.head }}">
+                        </a>&emsp;<a href="#">
+                        <input class="btn btn-secondary-outline radius size-S" id="qwer" type="button" value="退出登录"/>
+                        </a>
+                            {% else %}
+                        <a href="{% url 'user:用户登录' %}">
+                        <input class="btn btn-secondary-outline radius size-S" type="button" value="登录"/>
+                        </a>
+                        <a href="{% url 'user:用户注册' %}">
+                        <input class="btn btn-secondary-outline radius size-S" type="button" value="注册"/>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>{% endcomment %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
 
 
 {% block content %}
@@ -28,9 +74,9 @@
                                 <div class="date_hits">
                                     <span>Jason</span>
                                     <span>{{ search.object.create_time }}</span>
-                                    {% for tag_name in search.object.blogtag.all %}
+                                    {% for tag in search.object.blogtag.all %}
                                         <span>
-                        <a href="/article?t=1">{{ tag_name }}</a>
+                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
                                     {% endfor %}
                                     <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
@@ -57,9 +103,9 @@
                                 <div class="date_hits">
                                     <span>Jason</span>
                                     <span>{{ search.object.create_time }}</span>
-                                    {% for tag_name in search.object.blogtag.all %}
+                                    {% for tag in search.object.blogtag.all %}
                                         <span>
-                        <a href="/article?t=1">{{ tag_name }}</a>
+                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
                                     {% endfor %}
                                     <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;

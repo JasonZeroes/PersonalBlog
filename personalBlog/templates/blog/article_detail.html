@@ -13,7 +13,7 @@
             <p class="box_c">
                 <span class="d_time">
                     发布时间：{{ blogarticle.create_time }}</span>
-                <span>编辑：<a href="#">Jason</a>
+                <span>编辑：<a href="javascript:;">Jason</a>
                 </span>
             </p>
             <ul class="infos">
@@ -23,15 +23,11 @@
 
             <div class="keybq">
                 <p><span>关键字</span>：
-                    {% for tag_name in blogarticle.blogtag.all %}
-                        <a class="label label-default">{{ tag_name }}</a>
+                    {% for tag in blogarticle.blogtag.all %}
+                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     {% endfor %}
                 </p>
             </div>
-            {% comment %} <div class="nextinfo">
-                            <p class="last">上一篇：<a href="#">免费收录网站搜索引擎登录口大全</a></p>
-                            <p class="next">下一篇：<a href="#">javascript显示年月日时间代码</a></p>
-                        </div>{% endcomment %}
 
         </div>
     </div>
@@ -110,7 +106,7 @@
                         {% endif %}
                     {% endfor %}
             </ul>
-
+            <br/>
         <div class="text-c mb-20" id="moreBlog">
         {% if comments.paginator.page_range|length >= 2 %}
                 <nav aria-label="Page navigation">

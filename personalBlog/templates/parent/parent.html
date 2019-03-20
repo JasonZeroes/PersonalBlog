@@ -73,7 +73,7 @@
                         </a>
                             {% else %}
                         <a href="{% url 'user:用户登录' %}">
-                        <input class="btn btn-secondary-outline radius size-S" type="button" value="未登录"/>
+                        <input class="btn btn-secondary-outline radius size-S" type="button" value="登录"/>
                         </a>
                         <a href="{% url 'user:用户注册' %}">
                         <input class="btn btn-secondary-outline radius size-S" type="button" value="注册"/>
@@ -135,7 +135,7 @@
                                     <span>{{ blogarticle.create_time }}</span>
                                     {% for tag_name in blogarticle.blogtag.all %}
                                         <span>
-                        <a href="/article?t=1">{{ tag_name }}</a>
+                        <a href="javscript:;">{{ tag_name }}</a>
                     </span>
                                     {% endfor %}
                                     <p class="hits"><i class="Hui-iconfont" title="点击量"></i> 13° </p>

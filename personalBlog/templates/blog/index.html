@@ -53,9 +53,9 @@
                                 <div class="date_hits">
                                     <span>Jason</span>
                                     <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag_name in blogarticle.blogtag.all %}
+                                    {% for tag in blogarticle.blogtag.all %}
                                         <span>
-                        <a href="/article?t=1">{{ tag_name }}</a>
+                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
                                     {% endfor %}
                                                                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
@@ -79,9 +79,9 @@
                                 <div class="date_hits">
                                     <span>Jason</span>
                                     <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag_name in blogarticle.blogtag.all %}
+                                    {% for tag in blogarticle.blogtag.all %}
                                         <span>
-                        <a href="/article?t=1">{{ tag_name }}</a>
+                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
                                     {% endfor %}
                                     <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
