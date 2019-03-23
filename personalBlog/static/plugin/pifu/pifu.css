@@ -1,23 +1,24 @@
-.qq {
-    width: 38px;
-    line-height: 38px;
-    height: 38px;
-    position: fixed;
-    right: 0px;
-    background-color: #fff;
-    top: 200px;
-    text-align: center;
-    -webkit-box-shadow: 1px 1px 1px hsla(0, 0%, 0%, 1.00);
-    box-shadow: 1px 1px 1px hsla(0, 0%, 0%, .3);
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    transition: all .8s ease 0s;
-    overflow: hidden
-}
-.qq a {
-    font-size: 2em;
-    color: #5a98de;
-}
+/*.qq {*/
+    /*width: 38px;*/
+    /*line-height: 38px;*/
+    /*height: 38px;*/
+    /*position: fixed;*/
+    /*right: 0px;*/
+    /*background-color: #fff;*/
+    /*top: 200px;*/
+    /*text-align: center;*/
+    /*-webkit-box-shadow: 1px 1px 1px hsla(0, 0%, 0%, 1.00);*/
+    /*box-shadow: 1px 1px 1px hsla(0, 0%, 0%, .3);*/
+    /*border-top-left-radius: 3px;*/
+    /*border-bottom-left-radius: 3px;*/
+    /*transition: all .8s ease 0s;*/
+    /*overflow: hidden*/
+/*}*/
+
+/*.qq a {*/
+    /*font-size: 2em;*/
+    /*color: #5a98de;*/
+/*}*/
 
 .pfys {
     width: 38px;

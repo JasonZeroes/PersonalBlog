@@ -40,19 +40,22 @@
                         <div class="panel-body" style="margin: 0 3%;">
                             <div class="mb-20">
 
-        <!--用于评论-->
-        <form action="{% url 'comments:博客评论' %}" method="post">
-            {% csrf_token %}
-            <div class="panel panel-default  mb-20" id="ct">
-                <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                <textarea class="comment-content" id="textarea1"  name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
-                <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
-                <input type="hidden" name="parent_id" value="0"/>
-                <div class="text-r mt-10">
-                    <button type="button" class="btn btn-primary radius fabiao"> 发表评论</button>
-                </div>
-            </div>
-        </form>
+<!--用于评论-->
+<form action="{% url 'comments:博客评论' %}" method="post" id="te">
+    {% csrf_token %}
+    <div class="panel panel-default  mb-20" id="ct">
+        <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+        <textarea class="comment-content" id="textarea1"  name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+        <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
+        <input type="hidden" name="parent_id" value="0"/>
+        <div class="text-r mt-10">
+            <button type="button" class="btn btn-primary radius fabiao"> 发表评论</button>
+        </div>
+    </div>
+
+</form>
+
+
 
         <div class="line"></div>
             <ul class="commentList mt-50">
@@ -131,7 +134,7 @@
                                 </span>
                                 </a>
                             {% endif %}
-                           {% comment %} <span style="width:30px;font-size: 16px;" aria-hidden="true">当前:第{{ comments.number }}页</span>{% endcomment %}
+
                         </nav>
         {% endif %}
 
@@ -179,9 +182,8 @@
             wangEditor.config.printLog = false;
             var editor1 = new wangEditor('textarea1');
             editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'emotion', '|', 'undo', 'fullscreen'];
-
-
             editor1.create();
+
 
             //show reply
             $(".hf").click(function () {
@@ -207,8 +209,11 @@
                 //获取博客文章的id
                 var blog_id = parseInt(self.siblings('input').val());
                 //console.debug(blog_id);
-                var comment = $(".comment-content").val();
+                // 获取评论内容
+                var comment = $(".comment-content");
                 console.debug(comment);
+
+
                 //发动ajax请求
                 $.ajax({
                     type: "post",

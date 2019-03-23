@@ -8,7 +8,7 @@ from comments.forms import CommentsForm
 from comments.helper import json_msg
 from db.base_view import VerifyLogin
 from user.forms import UserRegisterForm, UserLoginModelForm, ResetPassWordForm
-from user.helper import set_password, login, showhead
+from user.helper import set_password, login, showhead, check_login
 from user.models import UserModel, BoardModel
 
 
@@ -184,6 +184,8 @@ class Board(View):
         data = dict(data)
         # 获取当前用户的id
         user_id = request.session.get("id")
+        if user_id is None:
+            return JsonResponse(json_msg(1, "您还未登录!"))
         # 判断用户的权限是否足够
         if UserModel.objects.get(pk=user_id).user_status != 1:
             return JsonResponse(json_msg(2, "您已经被禁言!7天后解除限制!"))
@@ -209,7 +211,7 @@ class Board(View):
             return JsonResponse(json_msg(0, "留言成功!"))
         else:
             # 数据不合法
-            return JsonResponse(json_msg(3, "评论字符至少5个!"))
+            return JsonResponse(json_msg(3, "评论字符至少10个!"))
 
 
 # 创建一个类实现留言回复

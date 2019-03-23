@@ -45,7 +45,7 @@ class Comments(VerifyLogin):
             )
             return JsonResponse(json_msg(0, "评论成功!", data=blog_id))
         else:
-            return JsonResponse(json_msg(4, "评论有效字符少于5个!", data=blog_id))
+            return JsonResponse(json_msg(4, "评论不能为空!", data=blog_id))
 
 
 # 创将一个类, 实现对评论的回复功能
@@ -88,5 +88,5 @@ class Reply(VerifyLogin):
             )
             return JsonResponse(json_msg(0, "回复成功!", data=blog_id))
         else:
-            return JsonResponse(json_msg(4, "回复字符少于5个!", data=blog_id))
+            return JsonResponse(json_msg(4, "回复不能为空!", data=blog_id))
 
