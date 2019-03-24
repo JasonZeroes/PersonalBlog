@@ -65,7 +65,12 @@
                     <i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ comment.user.head }}"></i></a>
                     <div class="comment-main">
                         <header class="comment-header">
-                            <div class="comment-meta"><a class="comment-author" href="#">{{ comment.user.nickname }}</a>
+                            <div class="comment-meta">
+                                {% if comment.user.nickname == "莫言" %}
+                                <a class="comment-author" href="#">{{ comment.user.nickname }}-{{ comment.user.phone }}</a>
+                                    {% else %}
+                                    <a class="comment-author" href="#">{{ comment.user.nickname }}</a>
+                                {% endif %}
                                 <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
                                       class="f-r">{{ comment.create_time }}
                                 </time>
@@ -83,7 +88,12 @@
                                     <div class="comment-main">
                                         <header class="comment-header">
                                             <div class="comment-meta">
-                                                <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
+                                                {% if reply.user.nickname == "莫言" %}
+                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}-{{ reply.user.phone }}</a>
+                                                    {% else %}
+                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
+                                                {% endif %}
+
                                                 <time title="2014年8月31日 下午3:20"
                                                       datetime="2014-08-31T03:54:20" class="f-r">
                                                     {{ reply.create_time }}

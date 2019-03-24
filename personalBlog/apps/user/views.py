@@ -211,7 +211,7 @@ class Board(View):
             return JsonResponse(json_msg(0, "留言成功!"))
         else:
             # 数据不合法
-            return JsonResponse(json_msg(3, "评论字符至少10个!"))
+            return JsonResponse(json_msg(3, "评论不能为空!"))
 
 
 # 创建一个类实现留言回复
@@ -279,7 +279,7 @@ class Revert(VerifyLogin):
             )
             return JsonResponse(json_msg(0, "回复成功!"))
         else:
-            return JsonResponse(json_msg(4, "回复字符少于5个!"))
+            return JsonResponse(json_msg(4, "回复不能为空!"))
 
         # TODO  用户个人中心 搜索页的头像问题, 退出登录
 

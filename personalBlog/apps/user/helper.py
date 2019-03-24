@@ -30,13 +30,13 @@ def login(request, user):
     request.session["id"] = user.pk
     request.session["phone"] = user.phone
     # 设置浏览器的过期时间 7200秒
-    request.session.set_expiry(7200)
+    request.session.set_expiry(7*24*3600)
 
 
 # 创建一个函数, 实现检查用户的登录状态
 def check_login(func):
     # 首先定义一个新的函数
-    def verify_ligin(request, *args, **kwargs):
+    def verify_login(request, *args, **kwargs):
         # 验证session中是否有用户的登录信息
         if request.session.get('id') is None:
             # 将上次请求的地址保存到session中
@@ -58,7 +58,7 @@ def check_login(func):
             return func(request, *args, **kwargs)
 
     # 返回新函数名
-    return verify_ligin
+    return verify_login
 
 
 # 创建一盒函数, 实现对父模板中用户头像的显示

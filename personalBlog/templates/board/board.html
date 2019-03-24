@@ -72,57 +72,63 @@
                                 </div>
                             </form>
 
-                            <div class="line"></div>
-                            <ul class="commentList mt-50">
-                                {% for board in boards %}
-                                    {% if board.parent_id == 0 %}
-                                        <li class="item cl"><a href="#">
-                                            <i class="avatar size-L radius"><img alt="" src="
-                        {{ MEDIA_URL }}{{ board.user.head }}"></i></a>
-                                            <div class="comment-main">
-                                                <header class="comment-header">
-                                                    <div class="comment-meta"><a class="comment-author"
-                                                                                 href="#">{{ board.user.nickname }}</a>
-                                                        <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
-                                                              class="f-r">{{ board.create_time }}
-                                                        </time>
-                                                    </div>
-                                                </header>
-                                                <div class="comment-body">
-                                                    <input type="hidden" class="reply-parent-id"
-                                                           value="{{ comment.pk }}"/>
-                                                    {{ board.content|safe }}
-                                                    <!--展示回复-->
-                                                    <ul class="commentList">
-                                                        {% for reply in  replies %}
-                                                            {% if reply.parent_id == board.pk %}
-                                                                <li class="item cl"><a href="#"><i
-                                                                        class="avatar size-L radius"><img alt="" src="
-                                            {{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
-                                                                    <div class="comment-main">
-                                                                        <header class="comment-header">
-                                                                            <div class="comment-meta">
-                                                                                <a class="comment-author"
-                                                                                   href="#">{{ reply.user.nickname }}</a>
-                                                                                <time title="2014年8月31日 下午3:20"
-                                                                                      datetime="2014-08-31T03:54:20"
-                                                                                      class="f-r">
-                                                                                    {{ reply.create_time }}
-                                                                                </time>
-                                                                            </div>
-                                                                        </header>
-                                                                        <div class="comment-body">
-                                                                            <p>{{ reply.content }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
+<div class="line"></div>
+<ul class="commentList mt-50">
+{% for board in boards %}
+    {% if board.parent_id == 0 %}
+        <li class="item cl"><a href="javascript:;">
+            <i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ board.user.head }}"></i></a>
+        <div class="comment-main">
+            <header class="comment-header">
+                <div class="comment-meta">
+                    {% if board.user.nickname == "莫言" %}
+                        <a class="comment-author" href="javascript:;">{{ board.user.nickname }}-{{ board.user.phone }}</a>
+                        {% else %}
+                        <a class="comment-author" href="javascript:;">{{ board.user.nickname }}</a>
+                    {% endif %}
 
-                                                            {% endif %}
-                                                        {% endfor %}
+                    <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20"
+                          class="f-r">{{ board.create_time }}
+                    </time>
+                </div>
+            </header>
+            <div class="comment-body">
+                <input type="hidden" class="reply-parent-id"
+                       value="{{ comment.pk }}"/>
+                {{ board.content|safe }}
+<!--展示回复-->
+<ul class="commentList">
+    {% for reply in  replies %}
+        {% if reply.parent_id == board.pk %}
+            <li class="item cl"><a href="#"><i
+                    class="avatar size-L radius"><img alt="" src="
+{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
+                <div class="comment-main">
+                    <header class="comment-header">
+                        <div class="comment-meta">
+                            {% if reply.user.nickname == "莫言" %}
+                                <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}{{ reply.user.phone }}</a>
+                                {% else %}
+                                <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}</a>
+                            {% endif %}
 
-                                                    </ul>
-                                                    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复
-                                                    </button>
+                            <time title="2014年8月31日 下午3:20"
+                                  datetime="2014-08-31T03:54:20"
+                                  class="f-r">
+                                {{ reply.create_time }}
+                            </time>
+                        </div>
+                    </header>
+                    <div class="comment-body">
+                        <p>{{ reply.content }}</p>
+                    </div>
+                </div>
+            </li>
+
+        {% endif %}
+    {% endfor %}
+</ul>
+    <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
                                                     <input type="hidden" class="reply-parent-id"
                                                            value="{{ board.pk }}"/>
 
@@ -157,8 +163,7 @@
                                                aria-label="Next">
     <span aria-hidden="true">
          <input class="btn btn-success radius size-M" type="button" value="&raquo;">
-    </span>
-                                            </a>
+    </span></a>
                                         {% endif %}
                                     </nav>
                                 </div>
