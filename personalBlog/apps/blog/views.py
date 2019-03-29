@@ -35,7 +35,7 @@ class BlogIndexView(View):
         tags = BlogTag.objects.all()
 
         # 实现分页功能 Paginator
-        paginator = Paginator(blogarticles, 4)
+        paginator = Paginator(blogarticles, 6)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据
@@ -88,7 +88,7 @@ class BlogDetailView(View):
             return redirect("blog:博客首页")
 
         # 实现分页功能 Paginator
-        paginator = Paginator(list(comments), 2)
+        paginator = Paginator(list(comments), 8)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据
@@ -127,7 +127,7 @@ class BlogListView(View):
             return redirect("blog:博客首页")
 
         # 实现分页功能 Paginator
-        paginator = Paginator(list(blogarticles), 2)
+        paginator = Paginator(list(blogarticles), 6)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据
@@ -163,7 +163,7 @@ class TagSearch(View):
             "-create_time")
 
         # 实现分页功能 Paginator
-        paginator = Paginator(blogarticles, 2)
+        paginator = Paginator(blogarticles, 6)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据
@@ -183,3 +183,15 @@ class TagSearch(View):
             "user": showhead(request)
         }
         return render(request, "blog/tag_search.html", context)
+
+
+def page_not_found(request):
+    return render(request, 'blog/404.html')
+
+
+def page_error(request):
+    return render(request, 'blog/404.html')
+
+
+def permission_denied(request):
+    return render(request, 'blog/404.html')

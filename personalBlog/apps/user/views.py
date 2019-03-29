@@ -158,7 +158,7 @@ class Board(View):
         replies = BoardModel.objects.filter(is_delete=False)
 
         # 实现分页功能 Paginator
-        paginator = Paginator(list(boards), 3)
+        paginator = Paginator(list(boards),8)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据
@@ -223,7 +223,7 @@ class Revert(VerifyLogin):
         replies = BoardModel.objects.filter(is_delete=False)
 
         # 实现分页功能 Paginator
-        paginator = Paginator(list(boards), 3)
+        paginator = Paginator(list(boards), 8)
         # 获取当前页面的页码
         page = request.GET.get("page", 1)
         # 获取对应页码的数据

@@ -13,10 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views import static
 
 from blog.views import BlogIndexView
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,5 +33,18 @@ urlpatterns = [
     url(r'^comments/', include("comments.urls", namespace='comments')),
 
     # 绑定博客首页的路由
-    url(r"^$", BlogIndexView.as_view())
+    url(r"^$", BlogIndexView.as_view()),
+
+    url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
+
 ]
+
+
+handler404 = "blog.views.page_not_found"
+handler500 = "blog.views.page_error"
+handler403 = "blog.views.permission_denied"
+
+
+
+
+

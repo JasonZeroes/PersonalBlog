@@ -9,91 +9,97 @@
             <div class="slider_main">
                 <div class="slider">
                     <div class="bd">
-                        <ul>
-                            {% for carousel in carousels %}
-                                <li>
-                                    <a href="{% url 'blog:博客详情' %}?blog_id={{ carousel.blogarticle.pk }}"
-                                       target="_blank">
-                                        <img style="height: 250px" src="{{ MEDIA_URL }}{{ carousel.img_url }}">
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <ol class="hd cl dots">
-                        {% for carousel in carousels %}
-                            <li>forloop.counter</li>
-                        {% endfor %}
-                    </ol>
-                    <a class="slider-arrow prev" href="javascript:void(0)"></a>
-                    <a class="slider-arrow next" href="javascript:void(0)"></a>
-                </div>
-            </div>
+<ul>
+    {% for carousel in carousels %}
+        <li>
+            <a href="{% url 'blog:博客详情' %}?blog_id={{ carousel.blogarticle.pk }}" target="_blank">
+    <img style="height: 250px" src="{{ MEDIA_URL }}{{ carousel.img_url }}">
+</a>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+<ol class="hd cl dots">
+    {% for carousel in carousels %}
+            <li>forloop.counter</li>
+                    {% endfor %}
+</ol>
+    <a class="slider-arrow prev" href="javascript:void(0)"></a>
+    <a class="slider-arrow next" href="javascript:void(0)"></a>
+</div>
+</div>
 
-            <div class="mt-20 bg-fff box-shadow radius mb-5">
-                <div class="tab-category">
-                    <a href=""><strong class="current">最新发布</strong></a>
-                </div>
-            </div>
-            <div class="art_content">
-                <ul class="index_arc">
-                    {% for blogarticle in blogarticles %}
-                        {% if blogarticle.blog_img %}
-                            <li class="index_arc_item">
-                                <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}" class="pic">
-                                    <img class="lazyload"
-                                         data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
+<div class="mt-20 bg-fff box-shadow radius mb-5">
+    <div class="tab-category">
+        <a href=""><strong class="current">最新发布</strong></a>
+    </div>
+    </div>
+    <div class="art_content">
+<ul class="index_arc">
+    {% for blogarticle in blogarticles %}
+        {% if blogarticle.blog_img %}
+                <li class="index_arc_item">
+                        <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}" class="pic">
+                <img class="lazyload"
+                        data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
                                          alt="{{ blogarticle.blog_title }}">
-                                </a>
-                                <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">
-                                        {{ blogarticle.blog_title }}
-                                    </a>
-                                </h4>
-                                <div class="date_hits">
-                                    <span>Jason</span>
-                                    <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag in blogarticle.blogtag.all %}
-                                        <span>
-                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
+                        </a>
+                    <h4 class="title">
+            <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">
+                        {{ blogarticle.blog_title }}
+                        </a>
+                    </h4>
+                    <div class="date_hits">
+                    <span>Jason</span>
+                    <span>{{ blogarticle.create_time }}</span>
+                            {% for tag in blogarticle.blogtag.all %}
+                    <span>
+                <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
-                                    {% endfor %}
-                                                                        <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
-                                    </i>{{ blogarticle.blog_count }}
-                                    </p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
-                                    </i>
-                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
-                            </li>
-                        {% else %}
-                            <li class="index_arc_item no_pic">
-                                <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">
-                                        {{ blogarticle.blog_title }}
-                                    </a>
-                                </h4>
-                                <div class="date_hits">
-                                    <span>Jason</span>
-                                    <span>{{ blogarticle.create_time }}</span>
-                                    {% for tag in blogarticle.blogtag.all %}
-                                        <span>
-                        <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
+                            {% endfor %}
+        <p class="hits">
+            <i class="Hui-iconfont" title="点击量">&#xe6c1;
+            </i>
+            {{ blogarticle.blog_count }}
+        </p>
+        <p class="commonts">
+            <i class="Hui-iconfont" title="评论量">&#xe622;
+            </i>
+            <span id="sourceId::105" class="cy_cmt_count">
+                {{ blogarticle.commentsmodel_set.all.count }}
+            </span>
+        </p>
+        </div>
+            <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
+        </li>
+            {% else %}
+            <li class="index_arc_item no_pic">
+                <h4 class="title">
+                <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">
+                    {{ blogarticle.blog_title }}
+                </a>
+                </h4>
+                <div class="date_hits">
+                <span>Jason</span>
+                <span>{{ blogarticle.create_time }}</span>
+                        {% for tag in blogarticle.blogtag.all %}
+                <span>
+                <a href="{% url 'blog:标签搜索分类' tag.pk %}">{{ tag.tag_name }}</a>
                     </span>
-                                    {% endfor %}
-                                    <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;
+                        {% endfor %}
+                        <p class="hits">
+                                <i class="Hui-iconfont" title="点击量">&#xe6c1;
                                     </i>{{ blogarticle.blog_count }}
-                                    </p>
-                                    <p class="commonts"><i class="Hui-iconfont" title="评论量">&#xe622;
-                                    </i>
-                                        <span id="sourceId::105" class="cy_cmt_count">{{ blogarticle.commentsmodel_set.all.count }}
-                                        </span>
-                                    </p>
+                        </p>
+                        <p class="commonts">
+                            <i class="Hui-iconfont" title="评论量">&#xe622;
+                            </i>
+                                <span id="sourceId::105" class="cy_cmt_count">
+                                    {{ blogarticle.commentsmodel_set.all.count }}
+                                </span>
+                        </p>
                                 </div>
-                                <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
+                    <div class="desc">{{ blogarticle.blog_brief|safe }}</div>
                             </li>
 
                         {% endif %}

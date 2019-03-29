@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = ')+1%yu5_#g^4lb2%5g7q4$3ft)b1_iqx6&cm0d*9baph@h&v6e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -136,7 +136,7 @@ STATICFILES_DIRS = [
 ]
 
 # 设置静态文件根目录, 上线的时候使用
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # 设置ckeditor的上传目录
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -170,5 +170,5 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # 限制搜索每页显示多少条
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 5
 
