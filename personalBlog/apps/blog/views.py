@@ -122,7 +122,7 @@ class BlogListView(View):
         # 根据分类的id, 查询出对应的所有文章
         try:
             classify = BlogClassify.objects.get(pk=blogclassify_id)
-            blogarticles = classify.blogarticle_set.filter(is_delete=False)
+            blogarticles = classify.blogarticle_set.filter(is_delete=False).order_by("-create_time")
         except:
             return redirect("blog:博客首页")
 

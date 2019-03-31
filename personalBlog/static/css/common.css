@@ -286,8 +286,8 @@ a.blog_link{ color:#1CA368;}
     border: #ccc 1px dashed;
     text-align: center;
     padding: 5px 0;
-    margin-right: 30px;
     color: #999;
+    /*margin-right: 2px;*/
 }
 .box_c span {
     margin: 0 10px;
