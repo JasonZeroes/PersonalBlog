@@ -74,11 +74,11 @@
         </li>
             {% else %}
             <li class="index_arc_item no_pic">
-                <h4 class="title">
+                <h1 class="title">
                 <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">
                     {{ blogarticle.blog_title }}
                 </a>
-                </h4>
+                </h1>
                 <div class="date_hits">
                 <span>Jason</span>
                 <span>{{ blogarticle.create_time }}</span>
