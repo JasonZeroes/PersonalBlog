@@ -83,7 +83,7 @@
     <header class="comment-header">
         <div class="comment-meta">{% if board.user.nickname == "莫言" %}
             <a class="comment-author" href="javascript:;">
-                {{ board.user.nickname }}-{{ board.user.phone }}
+                {{ board.user.nickname }}-{{ board.user.phone|get_digit:"11" }}{{ board.user.phone|get_digit:"10" }}{{ board.user.phone|get_digit:"9" }}{{ "****" }}{{ board.user.phone|get_digit:"4" }}{{ board.user.phone|get_digit:"3" }}{{ board.user.phone|get_digit:"2" }}{{ board.user.phone|get_digit:"1" }}
             </a>
     {% else %}
             <a class="comment-author" href="javascript:;">
@@ -109,7 +109,7 @@
                     <header class="comment-header">
                         <div class="comment-meta">
                             {% if reply.user.nickname == "莫言" %}
-                                <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}{{ reply.user.phone }}</a>
+                                <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}{{ reply.user.phone|get_digit:"11" }}{{ reply.user.phone|get_digit:"10" }}{{ reply.user.phone|get_digit:"9" }}{{ "****" }}{{ reply.user.phone|get_digit:"4" }}{{ reply.user.phone|get_digit:"3" }}{{ reply.user.phone|get_digit:"2" }}{{ reply.user.phone|get_digit:"1" }}</a>
                                 {% else %}
                                 <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}</a>
                             {% endif %}

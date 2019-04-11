@@ -67,7 +67,8 @@
                         <header class="comment-header">
                             <div class="comment-meta">
                                 {% if comment.user.nickname == "莫言" %}
-                                <a class="comment-author" href="#">{{ comment.user.nickname }}-{{ comment.user.phone }}</a>
+                                <a class="comment-author" href="#">{{ comment.user.nickname }}-{{ comment.user.phone|get_digit:"11" }}{{ comment.user.phone|get_digit:"10" }}{{ comment.user.phone|get_digit:"9" }}{{ "****" }}{{ comment.user.phone|get_digit:"4" }}{{ comment.user.phone|get_digit:"3" }}{{ comment.user.phone|get_digit:"2" }}{{ comment.user.phone|get_digit:"1" }}
+                                </a>
                                     {% else %}
                                     <a class="comment-author" href="#">{{ comment.user.nickname }}</a>
                                 {% endif %}
@@ -80,36 +81,35 @@
                             <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
                             {{ comment.content|safe }}
                                 <!--展示回复-->
-                            <ul class="commentList">
-                                {% for reply in  replies %}
-                                    {% if reply.parent_id == comment.pk %}
+<ul class="commentList">
+    {% for reply in  replies %}
+        {% if reply.parent_id == comment.pk %}
+            <li class="item cl"><a href="#"><i class="avatar size-L radius">
+<img alt="" src="{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
+    <div class="comment-main">
+        <header class="comment-header">
+            <div class="comment-meta">
+                {% if reply.user.nickname == "莫言" %}
+                    <a class="comment-author" href="#">{{ reply.user.nickname }}-{{ reply.user.phone|get_digit:"11" }}{{ reply.user.phone|get_digit:"10" }}{{ reply.user.phone|get_digit:"9" }}{{ "****" }}{{ reply.user.phone|get_digit:"4" }}{{ reply.user.phone|get_digit:"3" }}{{ reply.user.phone|get_digit:"2" }}{{ reply.user.phone|get_digit:"1" }}</a>
+                    {% else %}
+                    <a class="comment-author" href="javascript:;">{{ reply.user.nickname }}</a>
+                {% endif %}
 
-                                        <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="{{ MEDIA_URL }}{{ reply.user.head }}"></i></a>
-                                    <div class="comment-main">
-                                        <header class="comment-header">
-                                            <div class="comment-meta">
-                                                {% if reply.user.nickname == "莫言" %}
-                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}-{{ reply.user.phone }}</a>
-                                                    {% else %}
-                                                    <a class="comment-author" href="#">{{ reply.user.nickname }}</a>
-                                                {% endif %}
+                <time title="2014年8月31日 下午3:20"
+                      datetime="2014-08-31T03:54:20" class="f-r">
+                    {{ reply.create_time }}
+                </time>
+    </div>
+</header>
+            <div class="comment-body">
+                <p>{{ reply.content }}</p>
+        </div>
+    </div>
+    </li>
+        {% endif %}
+                {% endfor %}
 
-                                                <time title="2014年8月31日 下午3:20"
-                                                      datetime="2014-08-31T03:54:20" class="f-r">
-                                                    {{ reply.create_time }}
-                                                </time>
-                                            </div>
-                                        </header>
-                                        <div class="comment-body">
-                                            <p>{{ reply.content }}</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                    {% endif %}
-                                {% endfor %}
-
-                            </ul>
+            </ul>
                             <button class="hf f-r btn btn-default size-S mt-10" name="2">回复</button>
                             <input type="hidden" class="reply-parent-id" value="{{ comment.pk }}"/>
 

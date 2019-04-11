@@ -68,7 +68,7 @@
                                 </a>
                                 <h4 class="title">
                                     <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
-                                        {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
+                                        <b>{% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}</b>
                                     </a>
                                 </h4>
                                 <div class="date_hits">
@@ -96,7 +96,7 @@
                             <li class="index_arc_item no_pic">
                                 <h4 class="title">
                                     <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
-                                        {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
+                                        <b>{% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}</b>
 
                                     </a>
                                 </h4>
