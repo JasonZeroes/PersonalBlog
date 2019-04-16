@@ -49,7 +49,7 @@ class BlogIndexView(View):
             blogarticles = paginator.page(paginator.num_pages)
 
         # 查询出所有推荐文章的数据
-        data = BlogArticle.objects.filter(is_delete=False, blog_is_publish=True).order_by("-blog_count")[:5]
+        data = BlogArticle.objects.filter(is_delete=False, blog_is_publish=True).order_by("-blog_count")[:10]
 
         # 准备参数
         context = {
@@ -68,7 +68,7 @@ class BlogDetailView(View):
     # 用户以GET方式请求
     def get(self, request):
         # 获取博客id
-        blog_id = int(request.GET.get("blog_id"))
+        blog_id = int(request.GET.get("bid"))
 
         # 根据博客文章的id, 查询出博客的详细信息.及博客的评论与回复
         # 设置一个保存点

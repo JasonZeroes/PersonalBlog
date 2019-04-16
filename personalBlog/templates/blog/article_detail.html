@@ -9,7 +9,7 @@
                <div class="panel panel-default  mb-10">
         <div class="panel-body pt-10 pb-10">
             <h1 class="c_titile">{{ blogarticle.blog_title }}</h1>
-                <input type="hidden" id="reply-blog_id" value="{{ blogarticle.pk }}"/>
+                <input type="hidden" id="reply-bid" value="{{ blogarticle.pk }}"/>
             <p class="box_c">
                 <span class="d_time">
                     发布时间：{{ blogarticle.create_time }}</span>
@@ -46,7 +46,7 @@
     <div class="panel panel-default  mb-20" id="ct">
         <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
         <textarea class="comment-content" id="textarea1"  name="content" style="height:200px;" placeholder="看完不留一发？"> </textarea>
-        <input type="hidden" name="blog_id" value="{{ blogarticle.pk }}"/>
+        <input type="hidden" name="bid" value="{{ blogarticle.pk }}"/>
         <input type="hidden" name="parent_id" value="0"/>
         <div class="text-r mt-10">
             <button type="button" class="btn btn-primary radius fabiao"> 发表评论</button>
@@ -124,7 +124,7 @@
         {% if comments.paginator.page_range|length >= 2 %}
                 <nav aria-label="Page navigation">
                 {% if comments.has_previous %}
-                    <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.previous_page_number }}" aria-label="Previous">
+                    <a href="{% url 'blog:博客详情' %}?bid={{ blogarticle.pk }}&page={{ comments.previous_page_number }}" aria-label="Previous">
                     <span aria-hidden="true">
                      <input class="btn btn-success radius size-M" type="button" value="&laquo;">
                     </span>
@@ -132,13 +132,13 @@
                     {% endif %}
 
                     {% for p in comments.paginator.page_range %}
-                        <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ p }}">
+                        <a href="{% url 'blog:博客详情' %}?bid={{ blogarticle.pk }}&page={{ p }}">
                     <input class="btn btn-secondary radius size-M" type="button" value="{{ p }}">
                     </a>
                     {% endfor %}
 
                     {% if blogarticles.has_next %}
-                            <a href="{% url 'blog:博客详情' %}?blog_id={{ blogarticle.pk }}&page={{ comments.next_page_number }}" aria-label="Next">
+                            <a href="{% url 'blog:博客详情' %}?bid={{ blogarticle.pk }}&page={{ comments.next_page_number }}" aria-label="Next">
                         <span aria-hidden="true">
                             <input class="btn btn-success radius size-M" type="button" value="&raquo;">
                                 </span>
@@ -172,6 +172,7 @@
 
     </section>
 {% endblock %}
+
 
 
 
@@ -219,8 +220,8 @@
                 // 准备发送ajax的数据
                 var data = $("form").serialize();
                 //获取博客文章的id
-                var blog_id = parseInt(self.siblings('input').val());
-                //console.debug(blog_id);
+                var bid = parseInt(self.siblings('input').val());
+                //console.debug(bid);
                 // 获取评论内容
                 var comment = $(".comment-content");
                 console.debug(comment);
@@ -240,7 +241,7 @@
                             }
                         } else {
                             alert(data.errmsg);
-                            location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
+                            location.href = "{% url 'blog:博客详情' %}?bid=" + data.data;
                         }
                     }
                 })
@@ -263,15 +264,15 @@
 
                 } else {
                     //获取博客文章的id
-                    var blog_id = $("#reply-blog_id").val();
-                    //console.debug(blog_id);
+                    var bid = $("#reply-bid").val();
+                    //console.debug(bid);
                     //获取评论的id
                     var parent_id = self.parent().prev().val();
                     //console.debug(parent_id);
 
                     // 准备json数据
                     var data = {
-                        "blog_id": blog_id,
+                        "bid": bid,
                         "parent_id": parent_id,
                         "reply": reply,
                         "csrfmiddlewaretoken": "{{ csrf_token }}"
@@ -291,7 +292,7 @@
                                 }
                             } else {
                                 alert(data.errmsg);
-                                location.href = "{% url 'blog:博客详情' %}?blog_id=" + data.data;
+                                location.href = "{% url 'blog:博客详情' %}?bid=" + data.data;
                             }
                         }
                     })

@@ -17,11 +17,11 @@
                     {% for search in page %}
                         {% if search.object.blog_img %}
                             <li class="index_arc_item">
-                                <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}" class="pic">
+                                <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}" class="pic">
                                     <img class="lazyload" data-original="{{ MEDIA_URL }}{{ search.object.blog_img }}" alt="{{ search.object.blog_title }}">
                                 </a>
                                 <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                    <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}">
                                         {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
                                     </a>
                                 </h4>
@@ -44,7 +44,7 @@
                         {% else %}
                             <li class="index_arc_item no_pic">
                                 <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                    <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}">
                                         {% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}
 
                                     </a>
@@ -104,12 +104,12 @@
                 {% for blogarticle in blogarticles %}
                     {% if blogarticle.blog_img %}
                         <li class="index_arc_item">
-                            <a href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}" class="pic">
+                            <a href="{% url "blog:博客详情" %}?bid={{ blogarticle.pk }}" class="pic">
                                 <img class="lazyload" data-original="{{ MEDIA_URL }}{{ blogarticle.blog_img }}"
                                      alt="{{ blogarticle.blog_title }}">
                             </a>
                             <h4 class="title"><a
-                                    href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">{{ blogarticle.blog_title }}</a></h4>
+                                    href="{% url "blog:博客详情" %}?bid={{ blogarticle.pk }}"><b>{{ blogarticle.blog_title }}</b></a></h4>
                             <div class="date_hits">
                                 <span>Jason</span>
                                 <span>{{ blogarticle.create_time }}</span>
@@ -132,7 +132,7 @@
                     {% else %}
                         <li class="index_arc_item no_pic">
                             <h4 class="title"><a
-                                    href="{% url "blog:博客详情" %}?blog_id={{ blogarticle.pk }}">{{ blogarticle.blog_title }}</a></h4>
+                                    href="{% url "blog:博客详情" %}?bid={{ blogarticle.pk }}"><b>{{ blogarticle.blog_title }}</b></a></h4>
                             <div class="date_hits">
                                 <span>Jason</span>
                                 <span>{{ blogarticle.create_time }}</span>
@@ -251,10 +251,6 @@
 
 {% endblock %}
 
-
-{% block footer %}
-
-{% endblock %}
 
 {% block footer_js %}
 

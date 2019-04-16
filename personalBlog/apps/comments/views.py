@@ -18,7 +18,7 @@ class Comments(VerifyLogin):
         data = dict(data)
         # 获取当前用户的id
         user_id = request.session.get('id')
-        blog_id = int(data.get("blog_id")[0])
+        blog_id = int(data.get("bid")[0])
         # 判断该用户是否具备评价资格
         if UserModel.objects.get(pk=user_id).user_status != 1:
             return JsonResponse(json_msg(2, "您已经被禁言!7天后解除限制!"))
@@ -57,7 +57,7 @@ class Reply(VerifyLogin):
         data = dict(data)
         # 获取当前用户的id
         user_id = request.session.get('id')
-        blog_id = int(data.get("blog_id")[0])
+        blog_id = int(data.get("bid")[0])
         # 判断该用户是否具备评价资格
         if UserModel.objects.get(pk=user_id).user_status != 1:
             return JsonResponse(json_msg(2, "您已经被禁言!7天后解除限制!"))

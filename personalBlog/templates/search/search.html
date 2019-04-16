@@ -63,11 +63,11 @@
                     {% for search in page %}
                         {% if search.object.blog_img %}
                             <li class="index_arc_item">
-                                <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}" class="pic">
+                                <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}" class="pic">
                                     <img class="lazyload" data-original="{{ MEDIA_URL }}{{ search.object.blog_img }}" alt="{{ search.object.blog_title }}">
                                 </a>
                                 <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                    <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}">
                                         <b>{% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}</b>
                                     </a>
                                 </h4>
@@ -95,7 +95,7 @@
                         {% else %}
                             <li class="index_arc_item no_pic">
                                 <h4 class="title">
-                                    <a href="{% url "blog:博客详情" %}?blog_id={{ search.object.pk }}">
+                                    <a href="{% url "blog:博客详情" %}?bid={{ search.object.pk }}">
                                         <b>{% highlight search.object.blog_title with query html_tag "i" css_class "highlight_color" %}</b>
 
                                     </a>
@@ -200,9 +200,8 @@
 
 
 
-
             <!--分享-->
-            <div class="bg-fff box-shadow radius mb-20">
+{% comment %}            <div class="bg-fff box-shadow radius mb-20">
                 <div class="tab-category">
                     <a href=""><strong>站点分享</strong></a>
                 </div>
@@ -218,21 +217,16 @@
                                                                                                                 title="分享到新浪微博">&#xe6da;</a>
                         <a href="#" class="bds_tqq Hui-iconfont" data-cmd="tqq" title="分享到腾讯微博">&#xe6d9;</a></div>
                 </div>
-            </div>
+            </div>{% endcomment %}
         </div>
     </section>
 
 {% endblock %}
 
 
-{% block footer %}
 
-{% endblock %}
 
 {% block footer_js %}
-
-
-
 
     <script> $(function () {
         $(window).on("scroll", backToTopFun);
